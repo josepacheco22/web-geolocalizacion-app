@@ -6,6 +6,7 @@ export interface RWebHistorialxDia {
     clientes: Mpa_GEO_Clientes[];
     usuarios: CUltimoRegxUsu;
     recorrido: Mpa_UltUbi[];
+    recorridomanual: RPOSTGeolocalizacionReportesRecorridosDetalles[];
 }
 export interface Mpa_GEO_Pedidos {
     pdtclave1: string;
@@ -50,4 +51,48 @@ export interface Mpa_UltUbi {
     geublat: number;
     geublon: number;
     geubtim: number;
+}
+
+
+export interface RPOSTGeolocalizacionReportesRecorridosDetalles {
+    id: number;
+    usuario: string;
+    inicio: RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal;
+    final?: RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal | null;
+    detalle: Mgeorecd[];
+}
+export interface RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal {
+    fecha: Date;
+    latitud: number;
+    longitud: number;
+    comentario1: string;
+    comentario2: string;
+}
+
+export interface Mgeorecd {
+    recdid: number;
+    recdidrec: number;
+    recdusu: string;
+    recdclave: string;
+    recddoc: string;
+    recdnomb: string;
+    recdlugc: string;
+    recdlug: string;
+    recdibemp: number;
+    recdemp: string;
+    recdtipc: string;
+    recdtip: string;
+    recddirn: number;
+    recddir: string;
+    recdfin: boolean;
+    recdfechin?: Date | null;
+    recdfechfn?: Date | null;
+    recdfechs?: Date | null;
+    recdcom1: string;
+    recdcom2: string;
+    recdlatub: number;
+    recdlonub: number;
+    recdlat: number;
+    recdlon: number;
+
 }

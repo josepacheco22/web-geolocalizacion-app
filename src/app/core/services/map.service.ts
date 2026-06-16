@@ -10,7 +10,7 @@ import { GeofenceDto } from '@/core/models/Geocercas/GeocercaValidationResponseD
 //import { ChargeDto, LocationDto, OrderDto, UserLocationDto } from '../models/Filter/TrackingResponse';
 import { SolicitudData } from '@/core/models/SolicitudData';
 import { CUltimoRegxUsu } from '../models/CUltimoRegxUsu';
-import { Mpa_GEO_Clientes, Mpa_GEO_Cobros, Mpa_GEO_Pedidos, Mpa_UltUbi, RWebHistorialxDia } from '../models/Responses/RWebHistorialxDia';
+import { Mgeorecd, Mpa_GEO_Clientes, Mpa_GEO_Cobros, Mpa_GEO_Pedidos, Mpa_UltUbi, RPOSTGeolocalizacionReportesRecorridosDetalles, RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal, RWebHistorialxDia } from '../models/Responses/RWebHistorialxDia';
 import { TooltipModule } from 'primeng/tooltip';
 import { MTabla } from '../models/Responses/MTabla';
 
@@ -1090,7 +1090,7 @@ export class MapService {
   }
 
   private createDynamicPopupContentAuxTabla(fila: MTabla): string {
-    const titleText = 'Registro N: '+fila.id;
+    const titleText = 'Registro N: ' + fila.id;
     const totalcobro = fila.montocobro.toFixed(3);
     const totalpedido = fila.montopedido.toFixed(3);
     const orderDate = new Date(fila.fecha).toLocaleDateString('es-ES');
@@ -1129,7 +1129,7 @@ export class MapService {
         <div class="text-xs text-gray-600">${fila.dircliente}</div>
       </div>
     </div>
-${fila.cobro?`
+${fila.cobro ? `
     <div class="bg-green-50 rounded-lg p-2 border border-green-200">
       <div class="flex items-center space-x-1 mb-1">
           <svg class="w-3.5 h-3.5 text-green-600" viewBox="0 0 24 24" style="fill: currentColor;">
@@ -1142,8 +1142,8 @@ ${fila.cobro?`
 
       </div>
     </div>
-    `:``}
-${fila.pedido?`
+    `: ``}
+${fila.pedido ? `
     <div class="bg-purple-50 rounded-lg p-2 border border-purple-200">
 
       <div class="flex items-center space-x-1 mb-1">
@@ -1156,20 +1156,20 @@ ${fila.pedido?`
         <div class="text-xs text-gray-700">Total: $ ${totalpedido}</div>
       </div>
     </div>
-`:``}
+`: ``}
   </div>
 </div>
     `;
   }
 
-private createDynamicPopupContentAuxCliente(customer: Mpa_GEO_Clientes): string {
+  private createDynamicPopupContentAuxCliente(customer: Mpa_GEO_Clientes): string {
     const sectionsclientes: string[] = [];
-      sectionsclientes.push(`<div class="max-w-[13rem]  max-h-[20rem] overflow-y-auto  space-y-1 custom-scrollbar p-1">`);
-      
-        const statusColor = customer.asignado ? 'text-blue-600' : 'text-gray-600';
-        const statusText = customer.asignado ? 'Asignado' : 'No asignado';
-        const statusIcon = customer.asignado ? 'text-green-500' : 'text-yellow-500';
-        sectionsclientes.push(`
+    sectionsclientes.push(`<div class="max-w-[13rem]  max-h-[20rem] overflow-y-auto  space-y-1 custom-scrollbar p-1">`);
+
+    const statusColor = customer.asignado ? 'text-blue-600' : 'text-gray-600';
+    const statusText = customer.asignado ? 'Asignado' : 'No asignado';
+    const statusIcon = customer.asignado ? 'text-green-500' : 'text-yellow-500';
+    sectionsclientes.push(`
             <div class="bg-blue-50 rounded-lg p-2 border border-blue-200">
                 <div class="flex items-center space-x-1 mb-1">
                     <svg class="w-3.5 h-3.5 text-blue-600" viewBox="0 0 24 24" style="fill: currentColor;">
@@ -1186,9 +1186,9 @@ private createDynamicPopupContentAuxCliente(customer: Mpa_GEO_Clientes): string 
                 </div>
             </div>
         `);
-      
-      sectionsclientes.push(`</div>`);
-    const titleText ='Cliente';
+
+    sectionsclientes.push(`</div>`);
+    const titleText = 'Cliente';
     return `
     <div class="bg-white rounded-lg shadow-sm border-0 overflow-hidden">
       <div class="bg-gradient-to-r from-blue-600 to-blue-600 px-2 py-1">
@@ -1207,12 +1207,12 @@ private createDynamicPopupContentAuxCliente(customer: Mpa_GEO_Clientes): string 
   }
   private createDynamicPopupContentAuxPedido(order: Mpa_GEO_Pedidos): string {
     const sectionspedidos: string[] = [];
-      sectionspedidos.push(`<div class="max-w-[16rem]  max-h-[20rem] overflow-y-auto  space-y-1 custom-scrollbar p-1">`);
-      
-        const totalpedido = order.pdttotal.toFixed(3);
-        const orderDate = new Date(order.pdtfechaf).toLocaleDateString('es-ES');
-        const orderTime = new Date(order.pdtfechaf).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-        sectionspedidos.push(`
+    sectionspedidos.push(`<div class="max-w-[16rem]  max-h-[20rem] overflow-y-auto  space-y-1 custom-scrollbar p-1">`);
+
+    const totalpedido = order.pdttotal.toFixed(3);
+    const orderDate = new Date(order.pdtfechaf).toLocaleDateString('es-ES');
+    const orderTime = new Date(order.pdtfechaf).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    sectionspedidos.push(`
             <div class="bg-purple-50 rounded-lg p-2 border border-purple-200">
                 <div class="flex items-center space-x-1 mb-1">
                     <svg class="w-3.5 h-3.5 text-purple-600" viewBox="0 0 24 24" style="fill: currentColor;">
@@ -1228,9 +1228,9 @@ private createDynamicPopupContentAuxCliente(customer: Mpa_GEO_Clientes): string 
                 </div>
             </div>
         `);
-      
-      sectionspedidos.push(`</div>`);
-    const titleText ='Pedido';
+
+    sectionspedidos.push(`</div>`);
+    const titleText = 'Pedido';
     return `
     <div class="bg-white rounded-lg shadow-sm border-0 overflow-hidden">
       <div class="bg-gradient-to-r from-purple-600 to-purple-600 px-2 py-1">
@@ -1247,13 +1247,13 @@ private createDynamicPopupContentAuxCliente(customer: Mpa_GEO_Clientes): string 
     </div>
     `;
   }
-private createDynamicPopupContentAuxCobro(charge: Mpa_GEO_Cobros): string {
+  private createDynamicPopupContentAuxCobro(charge: Mpa_GEO_Cobros): string {
     const sectionscobros: string[] = [];
-      sectionscobros.push(`<div class="max-w-[16rem] max-h-[20rem] overflow-y-auto  space-y-1 custom-scrollbar p-1">`);
-      const totalcobro = charge.total.toFixed(3);
-        const chargeDate = new Date(charge.cabfecha).toLocaleDateString('es-ES');
-        const orderTime = new Date(charge.cabfecha).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-        sectionscobros.push(`
+    sectionscobros.push(`<div class="max-w-[16rem] max-h-[20rem] overflow-y-auto  space-y-1 custom-scrollbar p-1">`);
+    const totalcobro = charge.total.toFixed(3);
+    const chargeDate = new Date(charge.cabfecha).toLocaleDateString('es-ES');
+    const orderTime = new Date(charge.cabfecha).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    sectionscobros.push(`
             <div class="bg-green-50 rounded-lg p-2 border border-green-200">
                 <div class="flex items-center space-x-1 mb-1">
                     <svg class="w-3.5 h-3.5 text-green-600" viewBox="0 0 24 24" style="fill: currentColor;">
@@ -1269,9 +1269,9 @@ private createDynamicPopupContentAuxCobro(charge: Mpa_GEO_Cobros): string {
                 </div>
             </div>
         `);
-      
-      sectionscobros.push(`</div>`);
-    const titleText ='Cobro';
+
+    sectionscobros.push(`</div>`);
+    const titleText = 'Cobro';
     return `
     <div class="bg-white rounded-lg shadow-sm border-0 overflow-hidden">
       <div class="bg-gradient-to-r from-green-600 to-green-600 px-2 py-1">
@@ -1534,15 +1534,15 @@ private createDynamicPopupContentAuxCobro(charge: Mpa_GEO_Cobros): string {
       if (marker != undefined) {
         marker?.openPopup();
         return
-      }else{
+      } else {
         const popupContent = this.createDynamicPopupContentAuxCliente(customer);
-      L.popup({
-        maxWidth: 360,
-      className: 'custom-combined-popup'
-      })
-        .setLatLng([customer.latitud, customer.longitud])
-        .setContent(popupContent)
-        .openOn(map);
+        L.popup({
+          maxWidth: 360,
+          className: 'custom-combined-popup'
+        })
+          .setLatLng([customer.latitud, customer.longitud])
+          .setContent(popupContent)
+          .openOn(map);
       }
     });
   }
@@ -1558,17 +1558,17 @@ private createDynamicPopupContentAuxCobro(charge: Mpa_GEO_Cobros): string {
     this.map.once('moveend', () => {
       const marker = this.orderMarkers.get(order.pdtfactura.toString());
       if (marker != undefined) {
-      marker?.openPopup();
+        marker?.openPopup();
         return
-      }else{
+      } else {
         const popupContent = this.createDynamicPopupContentAuxPedido(order);
-      L.popup({
-        maxWidth: 360,
-      className: 'custom-combined-popup'
-      })
-        .setLatLng([order.pdtlat, order.pdtlon])
-        .setContent(popupContent)
-        .openOn(map);
+        L.popup({
+          maxWidth: 360,
+          className: 'custom-combined-popup'
+        })
+          .setLatLng([order.pdtlat, order.pdtlon])
+          .setContent(popupContent)
+          .openOn(map);
       }
     });
   }
@@ -1584,23 +1584,23 @@ private createDynamicPopupContentAuxCobro(charge: Mpa_GEO_Cobros): string {
     this.map.once('moveend', () => {
       const marker = this.chargeMarkers.get(charge.cobning.toString());
       if (marker != undefined) {
-      marker?.openPopup();
+        marker?.openPopup();
         return
-      }else{
+      } else {
         const popupContent = this.createDynamicPopupContentAuxCobro(charge);
-      L.popup({
-        maxWidth: 360,
-      className: 'custom-combined-popup'
-      })
-        .setLatLng([charge.cablat, charge.cablon])
-        .setContent(popupContent)
-        .openOn(map);
+        L.popup({
+          maxWidth: 360,
+          className: 'custom-combined-popup'
+        })
+          .setLatLng([charge.cablat, charge.cablon])
+          .setContent(popupContent)
+          .openOn(map);
       }
     });
 
   }
 
- focusRecorridoUltimo(recorridoultimo: Mpa_UltUbi, zoom: number = 19): void {
+  focusRecorridoUltimo(recorridoultimo: Mpa_UltUbi, zoom: number = 19): void {
     if (!this.map || !recorridoultimo.geublat || !recorridoultimo.geublon) return;
 
     this.map.flyTo([recorridoultimo.geublat, recorridoultimo.geublon], zoom, {
@@ -1608,11 +1608,11 @@ private createDynamicPopupContentAuxCobro(charge: Mpa_GEO_Cobros): string {
     });
     const map = this.map;
     this.map.once('moveend', () => {
-      const marker = this.trackingMarkers.get( `${recorridoultimo.geublat}-${recorridoultimo.geublon}-${recorridoultimo.geubfech}`);
+      const marker = this.trackingMarkers.get(`${recorridoultimo.geublat}-${recorridoultimo.geublon}-${recorridoultimo.geubfech}`);
       marker?.openPopup();
     });
   }
-focusRecorrido(recorrido: Mpa_UltUbi, zoom: number = 19): void {
+  focusRecorrido(recorrido: Mpa_UltUbi, zoom: number = 19): void {
     if (!this.map || !recorrido.geublat || !recorrido.geublon) return;
 
     this.map.flyTo([recorrido.geublat, recorrido.geublon], zoom, {
@@ -1637,12 +1637,12 @@ focusRecorrido(recorrido: Mpa_UltUbi, zoom: number = 19): void {
       //console.log(marker)
       //if (marker != undefined) {
       //marker?.openPopup();
-        //return
+      //return
       //}else{
-        const popupContent = this.createDynamicPopupContentAuxTabla(fila);
+      const popupContent = this.createDynamicPopupContentAuxTabla(fila);
       L.popup({
         maxWidth: 360,
-      className: 'custom-combined-popup'
+        className: 'custom-combined-popup'
       })
         .setLatLng([fila.latitud, fila.longitud])
         .setContent(popupContent)
@@ -2534,7 +2534,95 @@ focusRecorrido(recorrido: Mpa_UltUbi, zoom: number = 19): void {
       });
     }
   }
- addMarkersTabla(tabla: MTabla[]): void {
+
+
+  addTrackingMarkersRecorridoManual(recorridos: RPOSTGeolocalizacionReportesRecorridosDetalles[]): void {
+    if (!this.map || !this.L || recorridos.length === 0) {
+      console.warn('Mapa, Leaflet o ubicaciones no están disponibles');
+      return;
+    }
+
+    try {
+      this.clearTrackingMarkers();
+      this.initializeTrackingCluster();
+
+      //const mostRecentLocation = locations[0];
+
+
+      recorridos.forEach((recorrdido, index) => {
+        //const marker = this.createTrackingMarker2(recorrdido.inicio, 0);
+        recorrdido.inicio
+
+        if (recorrdido.inicio.latitud && recorrdido.inicio.longitud) {
+          try {
+            //const isLastLocation = location.geubfech === mostRecentLocation.geubfech;
+            let fechaFin: Date = new Date();
+            if (recorrdido.final != null) {
+              fechaFin = recorrdido.final.fecha;
+            }
+            const marker = this.createTrackingMarkerRecorridoInicioFinal(recorrdido.inicio, recorrdido.usuario, fechaFin, true, recorrdido.final != null, 0);
+            const markerId = `${recorrdido.inicio.latitud}-${recorrdido.inicio.longitud}-${recorrdido.inicio.fecha}`;
+            this.trackingMarkers.set(markerId, marker);
+            this.trackingClusterGroup?.addLayer(marker);
+          } catch (error) {
+            console.error('Error al agregar marcador de tracking:', error, location);
+          }
+        }
+
+
+        recorrdido.detalle.forEach((marca, index) => {
+          if (marca.recdlatub && marca.recdlonub) {
+            try {
+              //const isLastLocation = location.geubfech === mostRecentLocation.geubfech;
+              const marker = this.createTrackingMarkerRecorridoDetalle(marca, index);
+              const markerId = `${marca.recdlatub}-${marca.recdlonub}-${marca.recdfechin}`;
+              this.trackingMarkers.set(markerId, marker);
+              this.trackingClusterGroup?.addLayer(marker);
+            } catch (error) {
+              console.error('Error al agregar marcador de tracking:', error, location);
+            }
+          }
+        });
+
+        if (recorrdido.final) {
+          if (recorrdido.final.latitud && recorrdido.final.longitud) {
+            try {
+              //const isLastLocation = location.geubfech === mostRecentLocation.geubfech;
+              let fechaFin: Date = new Date();
+              if (recorrdido.final != null) {
+                fechaFin = recorrdido.final.fecha;
+              }
+              const marker = this.createTrackingMarkerRecorridoInicioFinal(recorrdido.final, recorrdido.usuario, recorrdido.inicio.fecha, true, true, 0);
+              const markerId = `${recorrdido.final.latitud}-${recorrdido.final.longitud}-${recorrdido.final.fecha}`;
+              this.trackingMarkers.set(markerId, marker);
+              this.trackingClusterGroup?.addLayer(marker);
+            } catch (error) {
+              console.error('Error al agregar marcador de tracking:', error, location);
+            }
+          }
+        }
+
+
+        this.createTrackingPathRecorrido(recorrdido.inicio, recorrdido.detalle, recorrdido.final);
+      }
+      );
+
+
+      setTimeout(() => {
+        this.map?.invalidateSize();
+      }, 100);
+    } catch (error) {
+      console.error('Error general en addTrackingMarkers:', error);
+      this.msgService?.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error al agregar marcadores de tracking'
+      });
+    }
+  }
+
+
+  addMarkersTabla(tabla: MTabla[]): void {
     if (!this.map || !this.L || tabla.length === 0) {
       console.warn('Mapa, Leaflet o ubicaciones no están disponibles');
       return;
@@ -2544,7 +2632,7 @@ focusRecorrido(recorrido: Mpa_UltUbi, zoom: number = 19): void {
       this.clearMarkersTabla();
       this.initializeClusterTabla();
 
-      
+
       //const mostRecentLocation = tabla[0];
 
       tabla.forEach((fila, index) => {
@@ -2671,8 +2759,39 @@ focusRecorrido(recorrido: Mpa_UltUbi, zoom: number = 19): void {
 
     return marker;
   }
-private createMarkerTabla(fila: MTabla, index: number ): L.Marker {
-    const customIcon = this.creatIconTabla(fila.pedido,fila.cobro);
+  private createTrackingMarkerRecorridoInicioFinal(location: RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal, usuario: string, fechafin: Date, esInicio: boolean, esFinalizado: boolean, index: number): L.Marker {
+    const customIcon = this.createTrackingIconRecorrdoInicioFinal(index, esInicio);
+    const marker = L.marker([location.latitud, location.longitud], {
+      icon: customIcon
+    });
+    let popupContent = null;
+    if (esInicio) {
+      popupContent = this.createTrackingPopupContentInicio(location, usuario, fechafin, esFinalizado);
+    } else {
+      popupContent = this.createTrackingPopupContentFinal(location, usuario, fechafin, esFinalizado);
+    }
+    marker.bindPopup(popupContent!, {
+      maxWidth: 260,
+      className: 'custom-tracking-popup'
+    });
+    return marker;
+  }
+  private createTrackingMarkerRecorridoDetalle(location: Mgeorecd, index: number): L.Marker {
+    const customIcon = this.createTrackingIcon2(index, location.recddoc != "");
+    const marker = L.marker([location.recdlatub, location.recdlonub], {
+      icon: customIcon
+    });
+
+    const popupContent = this.createTrackingPopupContentRecorrido(location, index);
+    marker.bindPopup(popupContent, {
+      maxWidth: 260,
+      className: 'custom-tracking-popup'
+    });
+
+    return marker;
+  }
+  private createMarkerTabla(fila: MTabla, index: number): L.Marker {
+    const customIcon = this.creatIconTabla(fila.pedido, fila.cobro);
     const marker = L.marker([fila.latitud, fila.longitud], {
       icon: customIcon
     });
@@ -2734,8 +2853,7 @@ private createMarkerTabla(fila: MTabla, index: number ): L.Marker {
 
   /**
    * Crea icono para ubicación de tracking
-   */
-  private createTrackingIcon(index: number, isLastLocation: boolean = false): L.DivIcon {
+   */private createTrackingIcon(index: number, isLastLocation: boolean = false): L.DivIcon {
     if (isLastLocation) {
       return this.createDeliveryPersonIcon();
     }
@@ -2750,18 +2868,79 @@ private createMarkerTabla(fila: MTabla, index: number ): L.Marker {
       iconAnchor: [6, 6]
     });
   }
-  private creatIconTabla(espedido: boolean,escobro: boolean): L.DivIcon {
+  private createTrackingIcon2(index: number, /*isLastLocation: boolean = false,*/ isCliente: boolean = true): L.DivIcon {
+    /*if (isLastLocation) {
+      return this.createDeliveryPersonIcon();
+    }*/
+    if (isCliente) {
+      return L.divIcon({
+        html: `
+            <div class="relative">
+                    <div class="w-10 h-10 bg-orange-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" style="fill: currentColor;">
+                            <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                        </svg>
+                    </div>
+                </div>`,
+        className: 'custom-delivery-person-marker',
+        iconSize: [40, 40],
+        iconAnchor: [20, 20]
+      });
+    }
+
+    return L.divIcon({
+      html: `
+            <div class="relative">
+                    <div class="w-10 h-10 bg-yellow-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M120-120v-560h160v-160h400v320h160v400H520v-160h-80v160H120Zm80-80h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 320h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 480h80v-80h-80v80Zm0-160h80v-80h-80v80Z"/></svg>
+                    </div>
+                </div>`,
+      className: 'custom-tracking-marker',
+      iconSize: [40, 40],
+      iconAnchor: [20, 20]
+    });
+  }
+  private createTrackingIconRecorrdoInicioFinal(index: number, /*isLastLocation: boolean = false,*/ isInicio: boolean = true): L.DivIcon {
+
+    if (isInicio) {
+      return L.divIcon({
+        html: `
+            <div class="relative">
+                    <div class="w-10 h-10 bg-green-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#FFFFFF"><path d="M367.15-730.15h67.62v-67.62h-67.62v67.62Zm135.23 0v-67.62H570v67.62h-67.62ZM367.15-459.69v-67.62h67.62v67.62h-67.62Zm270.47-135.23v-67.62h67.61v67.62h-67.61Zm0 135.23v-67.62h67.61v67.62h-67.61Zm-135.24 0v-67.62H570v67.62h-67.62Zm135.24-270.46v-67.62h67.61v67.62h-67.61Zm-202.85 67.61v-67.61h67.61v67.61h-67.61Zm-179 489v-624.23h43.77v67.62h67.61v67.61h-67.61v67.62h67.61v67.61h-67.61v353.77h-43.77ZM570-527.31v-67.61h67.62v67.61H570Zm-135.23 0v-67.61h67.61v67.61h-67.61Zm-67.62-67.61v-67.62h67.62v67.62h-67.62Zm135.23 0v-67.62H570v67.62h-67.62ZM570-662.54v-67.61h67.62v67.61H570Z"/></svg>
+                     </div>
+                </div>`,
+        className: 'custom-delivery-person-marker',
+        iconSize: [35, 35],
+        iconAnchor: [17, 17]
+      });
+    }
+
+    return L.divIcon({
+      html: `
+            <div class="relative">
+                    <div class="w-10 h-10 bg-red-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#FFFFFF"><path d="M367.15-730.15h67.62v-67.62h-67.62v67.62Zm135.23 0v-67.62H570v67.62h-67.62ZM367.15-459.69v-67.62h67.62v67.62h-67.62Zm270.47-135.23v-67.62h67.61v67.62h-67.61Zm0 135.23v-67.62h67.61v67.62h-67.61Zm-135.24 0v-67.62H570v67.62h-67.62Zm135.24-270.46v-67.62h67.61v67.62h-67.61Zm-202.85 67.61v-67.61h67.61v67.61h-67.61Zm-179 489v-624.23h43.77v67.62h67.61v67.61h-67.61v67.62h67.61v67.61h-67.61v353.77h-43.77ZM570-527.31v-67.61h67.62v67.61H570Zm-135.23 0v-67.61h67.61v67.61h-67.61Zm-67.62-67.61v-67.62h67.62v67.62h-67.62Zm135.23 0v-67.62H570v67.62h-67.62ZM570-662.54v-67.61h67.62v67.61H570Z"/></svg>
+                     </div>
+                </div>`,
+      className: 'custom-tracking-marker',
+      iconSize: [35, 35],
+      iconAnchor: [17, 17]
+    });
+
+  }
+  private creatIconTabla(espedido: boolean, escobro: boolean): L.DivIcon {
     return L.divIcon({
       html: `
         <div class="relative">
           <div class="w-12 h-12 bg-gradient-to-br from-green-600 to-purple-600 rounded-full border-2 border-white shadow-lg flex items-center justify-center space-x-0.5">
-            ${espedido?`<svg class="w-${espedido?3:4} h-${espedido?3:4} text-white" viewBox = "0 0 24 24"  style = "fill: currentColor;" >
+            ${espedido ? `<svg class="w-${espedido ? 3 : 4} h-${espedido ? 3 : 4} text-white" viewBox = "0 0 24 24"  style = "fill: currentColor;" >
               <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z" />
-            </svg>`:``}
-            ${escobro?`<svg class="w-${escobro?3:4} h-${escobro?3:4} text-white" viewBox = "0 0 24 24" style = "fill: currentColor;" >
+            </svg>`: ``}
+            ${escobro ? `<svg class="w-${escobro ? 3 : 4} h-${escobro ? 3 : 4} text-white" viewBox = "0 0 24 24" style = "fill: currentColor;" >
               <path d="M17 18C15.89 18 15 18.89 15 20C15 21.11 15.89 22 17 22C18.11 22 19 21.11 19 20C19 18.89 18.11 18 17 18ZM1 2V4H3L6.6 11.59L5.25 14.04C5.09 14.32 5 14.65 5 15C5 16.11 5.89 17 7 17H19V15H7.42C7.28 15 7.17 14.89 7.17 14.75L7.2 14.63L8.1 13H15.55C16.3 13 16.96 12.59 17.3 11.97L20.88 5H5.21L4.27 2H1ZM7 18C5.89 18 5 18.89 5 20C5 21.11 5.89 22 7 22C8.11 22 9 21.11 9 20C9 18.89 8.11 18 7 18Z" />
-            </svg>`:``}
-            <svg class="w-${espedido||escobro?3:4} h-${espedido||escobro?3:4} text-white" viewBox = "0 0 24 24" style = "fill: currentColor;" >
+            </svg>`: ``}
+            <svg class="w-${espedido || escobro ? 3 : 4} h-${espedido || escobro ? 3 : 4} text-white" viewBox = "0 0 24 24" style = "fill: currentColor;" >
               <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
             </svg>
           </div>
@@ -2889,9 +3068,187 @@ private createMarkerTabla(fila: MTabla, index: number ): L.Marker {
     `;
   }
 
+  private createTrackingPopupContentRecorrido(location: Mgeorecd, index: number): string {
+    const datein = new Date(location.recdfechin!);
+    const formattedDatein = datein.toLocaleDateString('es-ES');
+    const formattedTimein = datein.toLocaleTimeString('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    const datefn = new Date(location.recdfechfn!);
+    const formattedDatefn = datefn.toLocaleDateString('es-ES');
+    const formattedTimefn = datefn.toLocaleTimeString('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    let esCliente = location.recddoc != "";
+
+    const bgColor = esCliente ? 'bg-orange-50' : 'bg-yellow-50';
+    const borderColor = esCliente ? 'border-orange-200' : 'border-yellow-200';
+    const headerColor = esCliente ? 'bg-orange-600' : 'bg-yellow-600';
+    const title = esCliente ? 'text-orange-700' : `text-yellow-700`;
+    const icono = esCliente ? 'Última actualización' : `Ubicación ${index + 1}`;
+    let diferenciaEntreFechas = this.calcularTiempoTranscurrido(location.recdfechin!, location.recdfechfn!);
+    
+    //const timeLabel = isLastLocation ? 'Última actualización' : 'Registro';
+    return `
+    <div class="${bgColor} rounded-lg p-2 border ${borderColor}">
+                <div class=" flex items-center space-x-1 mb-1">
+ ${esCliente
+        ? `<svg class="w-5 h-5 ${title}" fill="currentColor" viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg>`
+        : `<svg class=" ${title}" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M120-120v-560h160v-160h400v320h160v400H520v-160h-80v160H120Zm80-80h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 320h80v-80h-80v80Zm0-160h80v-80h-80v80Zm0-160h80v-80h-80v80Zm160 480h80v-80h-80v80Zm0-160h80v-80h-80v80Z"/></svg>`
+      }                    
+                    <span class="font-semibold text-xs ${title} whitespace-nowrap ">Usuario: </span>
+                    <div class="font-semibold text-xs ${title} whitespace-nowrap">${location.recdusu}</div>
+                </div>
+                <div class="space-y-1">
+                  ${
+                      esCliente 
+                  ? 
+                    `<div class="text-xs text-gray-600">${location.recddoc}</div>
+                    <div class="text-xs text-gray-600">${location.recdnomb}</div>`
+                  :
+                    `<div class="text-xs text-gray-600">${location.recdlugc}</div>
+                    <div class="text-xs text-gray-600">${location.recdlug}</div>`
+                  }
+                    <div class="text-xs text-gray-600"><span class="font-semibold">Motivo: </span>${location.recdtip}</div>
+                    ${location.recdcom1 != "" ? `<div class="text-xs text-gray-600"><span class="font-semibold">Comentario: </span>${location.recdcom1}</div>` : ``}
+                    ${location.recdcom2 != "" ? `<div class="text-xs text-gray-600"><span class="font-semibold">Comentario: </span>${location.recdcom2}</div>` : ``}
+                    <div class="text-xs text-gray-600"><span class="font-semibold">Inicio: </span>${formattedDatein} - ${formattedTimein}</div>
+                    <div class="text-xs text-gray-600"><span class="font-semibold">Final: </span>${formattedDatefn} - ${formattedTimefn}</div>
+                    <div class="text-xs text-gray-600"><span class="font-semibold">Tiempo: </span>${diferenciaEntreFechas}</div>
+                </div>
+            </div>
+    `;
+  }
+  private createTrackingPopupContentInicio(location: RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal, usuario: string, fechafin: Date, esabierto: boolean): string {
+    const datein = new Date(location.fecha!);
+    const formattedDatein = datein.toLocaleDateString('es-ES');
+    const formattedTimein = datein.toLocaleTimeString('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    const datefn = new Date(fechafin!);
+    const formattedDatefn = datefn.toLocaleDateString('es-ES');
+    const formattedTimefn = datefn.toLocaleTimeString('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+
+    let diferenciaEntreFechas = this.calcularTiempoTranscurrido(location.fecha!, fechafin);
+    const estado = esabierto ? "CERRADO" : "ABIERTO";
+    return `
+    <div class="bg-green-50 rounded-lg p-2 border border-green-200">
+         <div class="text-xxs text-green-700"><span class="font-semibold">INICIO</span></div>
+      <div class=" flex items-center space-x-1 mb-1">
+
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="48px" fill="currentColor" class="text-green-700"><path d="M367.15-730.15h67.62v-67.62h-67.62v67.62Zm135.23 0v-67.62H570v67.62h-67.62ZM367.15-459.69v-67.62h67.62v67.62h-67.62Zm270.47-135.23v-67.62h67.61v67.62h-67.61Zm0 135.23v-67.62h67.61v67.62h-67.61Zm-135.24 0v-67.62H570v67.62h-67.62Zm135.24-270.46v-67.62h67.61v67.62h-67.61Zm-202.85 67.61v-67.61h67.61v67.61h-67.61Zm-179 489v-624.23h43.77v67.62h67.61v67.61h-67.61v67.62h67.61v67.61h-67.61v353.77h-43.77ZM570-527.31v-67.61h67.62v67.61H570Zm-135.23 0v-67.61h67.61v67.61h-67.61Zm-67.62-67.61v-67.62h67.62v67.62h-67.62Zm135.23 0v-67.62H570v67.62h-67.62ZM570-662.54v-67.61h67.62v67.61H570Z"/></svg>
+         <div>
+
+         <div class="text-xs text-green-700"><span class="font-semibold">Usuario: </span>${usuario}</div>
+         <div class="text-xs text-green-700"><span class="font-semibold">Estado: </span>${estado}</div>
+
+        </div>
+
+        </div>
+        <div class="space-y-1">
+
+        <div class="text-xs text-gray-600"><span class="font-semibold">Inicio: </span>${formattedDatein} - ${formattedTimein}</div>
+        ${esabierto ? `<div class="text-xs text-gray-600"><span class="font-semibold">Final: </span>${formattedDatefn} - ${formattedTimefn}</div>` : ``}
+
+
+            <div class="text-xs text-gray-600"><span class="font-semibold">Tiempo: </span>${diferenciaEntreFechas}</div>
+            
+            ${location.comentario1 != "" ? `<div class="text-xs text-gray-600"><span class="font-semibold">Comentario: </span>${location.comentario1}</div>` : ``}
+            ${location.comentario2 != "" ? `<div class="text-xs text-gray-600"><span class="font-semibold">Comentario: </span>${location.comentario2}</div>` : ``}
+            
+        </div>
+    </div>
+    `;
+  }
+  private createTrackingPopupContentFinal(location: RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal, usuario: string, fechainicio: Date, esabierto: boolean): string {
+    const datein = new Date(fechainicio);
+    const formattedDatein = datein.toLocaleDateString('es-ES');
+    const formattedTimein = datein.toLocaleTimeString('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    const datefn = new Date(location.fecha);
+    const formattedDatefn = datefn.toLocaleDateString('es-ES');
+    const formattedTimefn = datefn.toLocaleTimeString('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+
+    let diferenciaEntreFechas = this.calcularTiempoTranscurrido(fechainicio, location.fecha!);
+    const estado = esabierto ? "CERRADO" : "ABIERTO";
+    return `
+    <div class="bg-red-50 rounded-lg p-2 border border-red-200">
+         <div class="text-xxs text-red-700"><span class="font-semibold">FINAL</span></div>
+      <div class=" flex items-center space-x-1 mb-1">
+
+        
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="48px" fill="currentColor" class="text-red-700"><path d="M367.15-730.15h67.62v-67.62h-67.62v67.62Zm135.23 0v-67.62H570v67.62h-67.62ZM367.15-459.69v-67.62h67.62v67.62h-67.62Zm270.47-135.23v-67.62h67.61v67.62h-67.61Zm0 135.23v-67.62h67.61v67.62h-67.61Zm-135.24 0v-67.62H570v67.62h-67.62Zm135.24-270.46v-67.62h67.61v67.62h-67.61Zm-202.85 67.61v-67.61h67.61v67.61h-67.61Zm-179 489v-624.23h43.77v67.62h67.61v67.61h-67.61v67.62h67.61v67.61h-67.61v353.77h-43.77ZM570-527.31v-67.61h67.62v67.61H570Zm-135.23 0v-67.61h67.61v67.61h-67.61Zm-67.62-67.61v-67.62h67.62v67.62h-67.62Zm135.23 0v-67.62H570v67.62h-67.62ZM570-662.54v-67.61h67.62v67.61H570Z"/></svg>
+         <div>
+
+         <div class="text-xs text-red-700"><span class="font-semibold">Usuario: </span>${usuario}</div>
+         <div class="text-xs text-red-700"><span class="font-semibold">Estado: </span>${estado}</div>
+
+ </div>
+
+
+           </div>
+        <div class="space-y-1">
+
+<div class="text-xs text-gray-600"><span class="font-semibold">Inicio: </span>${formattedDatein} - ${formattedTimein}</div>
+${esabierto ? `<div class="text-xs text-gray-600"><span class="font-semibold">Final: </span>${formattedDatefn} - ${formattedTimefn}</div>` : ``}
+
+
+            <div class="text-xs text-gray-600"><span class="font-semibold">Tiempo: </span>${diferenciaEntreFechas}</div>
+            
+            ${location.comentario1 != "" ? `<div class="text-xs text-gray-600"><span class="font-semibold">Comentario: </span>${location.comentario1}</div>` : ``}
+            ${location.comentario2 != "" ? `<div class="text-xs text-gray-600"><span class="font-semibold">Comentario: </span>${location.comentario2}</div>` : ``}
+            
+        </div>
+    </div>
+    `;
+  }
+  calcularTiempoTranscurrido(
+    fechaInicio: Date | string,
+    fechaFin: Date | string
+  ): string {
+    const inicio = new Date(fechaInicio);
+    const fin = new Date(fechaFin);
+
+    let diferenciaMs = Math.abs(fin.getTime() - inicio.getTime());
+
+    const dias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
+    diferenciaMs %= (1000 * 60 * 60 * 24);
+
+    const horas = Math.floor(diferenciaMs / (1000 * 60 * 60));
+    diferenciaMs %= (1000 * 60 * 60);
+
+    const minutos = Math.floor(diferenciaMs / (1000 * 60));
+    diferenciaMs %= (1000 * 60);
+
+    const segundos = Math.floor(diferenciaMs / 1000);
+
+    const partes: string[] = [];
+
+    if (dias > 0) partes.push(`${dias} día${dias !== 1 ? 's' : ''}`);
+    if (horas > 0) partes.push(`${horas} hora${horas !== 1 ? 's' : ''}`);
+    if (minutos > 0) partes.push(`${minutos} minuto${minutos !== 1 ? 's' : ''}`);
+    if (segundos > 0 || partes.length === 0) {
+      partes.push(`${segundos} segundo${segundos !== 1 ? 's' : ''}`);
+    }
+
+    return partes.join(', ');
+  }
 
   private createPopupContentTable(fila: MTabla, index: number): string {
-    const titleText = 'Registro N: '+fila.id;
+    const titleText = 'Registro N: ' + fila.id;
     const totalcobro = fila.montocobro.toFixed(3);
     const totalpedido = fila.montopedido.toFixed(3);
     const orderDate = new Date(fila.fecha).toLocaleDateString('es-ES');
@@ -2930,7 +3287,7 @@ private createMarkerTabla(fila: MTabla, index: number ): L.Marker {
         <div class="text-xs text-gray-600">${fila.dircliente}</div>
       </div>
     </div>
-${fila.cobro?`
+${fila.cobro ? `
     <div class="bg-green-50 rounded-lg p-2 border border-green-200">
       <div class="flex items-center space-x-1 mb-1">
           <svg class="w-3.5 h-3.5 text-green-600" viewBox="0 0 24 24" style="fill: currentColor;">
@@ -2943,8 +3300,8 @@ ${fila.cobro?`
 
       </div>
     </div>
-    `:``}
-${fila.pedido?`
+    `: ``}
+${fila.pedido ? `
     <div class="bg-purple-50 rounded-lg p-2 border border-purple-200">
 
       <div class="flex items-center space-x-1 mb-1">
@@ -2957,7 +3314,7 @@ ${fila.pedido?`
         <div class="text-xs text-gray-700">Total: $ ${totalpedido}</div>
       </div>
     </div>
-`:``}
+`: ``}
   </div>
 </div>
     `;
@@ -3075,7 +3432,7 @@ ${fila.pedido?`
   }
 
 
-private initializeClusterTabla(): void {
+  private initializeClusterTabla(): void {
     if (!this.map || !this.L) return;
 
     if (!this.L.MarkerClusterGroup) {
@@ -3150,6 +3507,30 @@ private initializeClusterTabla(): void {
 
     this.trackingPath?.addTo(this.map);
   }
+  private createTrackingPathRecorrido(inicio: RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal, userLocation: Mgeorecd[], final?: RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal | null): void {
+    if (!this.map || !this.L || userLocation.length === 0) return;
+
+    //const userLocation = userLocations[0]; // Solo un usuario
+    if (userLocation.length < 2) return;
+
+
+    const pathCoordinates: [number, number][] = [
+      [inicio.latitud, inicio.longitud],
+      ...userLocation.map(location => [location.recdlatub, location.recdlonub] as [number, number])
+    ];
+    if (final != null) {
+      pathCoordinates.push([final.latitud, final.longitud]);
+    }
+
+    this.trackingPath = this.L.polyline(pathCoordinates, {
+      color: '#09a382',
+      weight: 3,
+      opacity: 0.7,
+      smoothFactor: 1
+    });
+
+    this.trackingPath?.addTo(this.map);
+  }
   private createPathTabla(userLocation: MTabla[]): void {
     if (!this.map || !this.L || userLocation.length === 0) return;
 
@@ -3189,7 +3570,7 @@ private initializeClusterTabla(): void {
 
     this.trackingMarkers.clear();
   }
-  
+
 
   /**
    * Limpia marcadores de cobros
@@ -3216,7 +3597,7 @@ private initializeClusterTabla(): void {
 
     this.orderMarkers.clear();
   }
-   clearMarkersTabla(): void {
+  clearMarkersTabla(): void {
     if (this.TablaClusterGroup && this.map) {
       this.TablaClusterGroup.clearLayers();
       this.map.removeLayer(this.TablaClusterGroup);

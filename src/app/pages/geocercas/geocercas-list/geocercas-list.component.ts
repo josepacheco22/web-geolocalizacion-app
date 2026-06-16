@@ -43,7 +43,15 @@ import { FilterRequest, ZonaBusquedaFilter } from '@/core/models/Filter/FilterRe
 import { ChargeDto, OrderDto, TrackingResponse } from '@/core/models/Filter/TrackingResponse';
 import { MultiSelect } from 'primeng/multiselect';
 import { CFiltroHistorialxDia } from '@/core/models/Filter/CFiltroHistorialxDia';
-import { Mpa_GEO_Clientes, Mpa_GEO_Cobros, Mpa_GEO_Pedidos, Mpa_UltUbi, RWebHistorialxDia } from '@/core/models/Responses/RWebHistorialxDia';
+import { Mpa_GEO_Clientes, Mpa_GEO_Cobros, Mpa_GEO_Pedidos, Mpa_UltUbi, RPOSTGeolocalizacionReportesRecorridosDetalles, RWebHistorialxDia } from '@/core/models/Responses/RWebHistorialxDia';
+
+export interface IFiltroMostrar {
+    recorridoautomatico: boolean,
+    recorridomanual: boolean,
+    clientes: boolean,
+    pedidos: boolean,
+    cobros: boolean
+  };
 
 @Component({
   selector: 'app-geocercas',
@@ -150,6 +158,214 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
   filteredCharges: Mpa_GEO_Cobros[] = [];
   chargeSearchTerm: string = '';
 
+  filtroMostar: IFiltroMostrar = {
+    recorridoautomatico: true,
+    recorridomanual: true,
+    clientes: true,
+    pedidos: true,
+    cobros: true,
+  };
+
+  recorridomanual: RPOSTGeolocalizacionReportesRecorridosDetalles[] = []/*
+[
+    {
+        id: 2,
+        usuario: "PC",
+        inicio: {
+            fecha: new Date("2026-06-09T09:59:00"),
+            latitud: -0.107779,
+            longitud: -78.4743828,
+            comentario1: "",
+            comentario2: ""
+        },
+        final: null,
+        detalle: [
+            {
+                recdid: 8,
+                recdidrec: 2,
+                recdusu: "PC",
+                recdclave: "0604873877",
+                recddoc: "0604873877",
+                recdnomb: "CUSNIA PINTAG VERONICA ALEXANDRA",
+                recdlugc: "",
+                recdlug: "",
+                recdibemp: 0,
+                recdemp: "emporio2025",
+                recdtipc: "00001",
+                recdtip: "PEDIDO",
+                recddirn: 1,
+                recddir: "mercado Pastuso",
+                recdfin: true,
+                recdfechin: new Date("2026-06-09T13:28:00"),
+                recdfechfn: new Date("2026-06-09T13:28:00"),
+                recdfechs: new Date("2026-06-09T13:28:00"),
+                recdcom1: "pedido ",
+                recdcom2: "",
+                recdlatub: -0.1004229,
+                recdlonub: -78.4383192,
+                recdlat: -0.1004229,
+                recdlon: -78.4383192
+            },
+            {
+                recdid: 10,
+                recdidrec: 2,
+                recdusu: "PC",
+                recdclave: "2100056932001",
+                recddoc: "2100056932001",
+                recdnomb: "TELLO NAJERA NORMA BEATRIZ",
+                recdlugc: "",
+                recdlug: "",
+                recdibemp: 0,
+                recdemp: "emporio2025",
+                recdtipc: "00001",
+                recdtip: "PEDIDO",
+                recddirn: 1,
+                recddir: "CARAPUNGO : RIO CAYAMBE OE11-121 NEPTALY Godoy",
+                recdfin: true,
+                recdfechin: new Date("2026-06-09T14:39:00"),
+                recdfechfn: new Date("2026-06-09T14:39:00"),
+                recdfechs: new Date("2026-06-09T14:39:00"),
+                recdcom1: "cobro ",
+                recdcom2: "",
+                recdlatub: -0.0962636,
+                recdlonub: -78.4507882,
+                recdlat: -0.0962636,
+                recdlon: -78.4507882
+            },
+            {
+                recdid: 13,
+                recdidrec: 2,
+                recdusu: "PC",
+                recdclave: "1713788584001",
+                recddoc: "1713788584001",
+                recdnomb: "MORENO PAUCAR ROSA MATILDE",
+                recdlugc: "",
+                recdlug: "",
+                recdibemp: 0,
+                recdemp: "emporio2025",
+                recdtipc: "00001",
+                recdtip: "PEDIDO",
+                recddirn: 1,
+                recddir: "AV.LUIS VACARI N15-306 Y RUMI±AHUI CARAPUNGO",
+                recdfin: true,
+                recdfechin: new Date("2026-06-09T16:30:00"),
+                recdfechfn: new Date("2026-06-09T16:30:00"),
+                recdfechs: new Date("2026-06-09T16:30:00"),
+                recdcom1: "pedido ",
+                recdcom2: "",
+                recdlatub: -0.0935993,
+                recdlonub: -78.4529561,
+                recdlat: -0.0935993,
+                recdlon: -78.4529561
+            },
+            {
+                recdid: 15,
+                recdidrec: 2,
+                recdusu: "PC",
+                recdclave: "0601151483001",
+                recddoc: "0601151483001",
+                recdnomb: "CAZCO SALAZAR CESAR ENRIQUE",
+                recdlugc: "",
+                recdlug: "",
+                recdibemp: 0,
+                recdemp: "emporio2025",
+                recdtipc: "00001",
+                recdtip: "PEDIDO",
+                recddirn: 1,
+                recddir: "Ofelia: Bellavista n64-200 y Bartolomé Zamora",
+                recdfin: true,
+                recdfechin: new Date("2026-06-09T17:27:00"),
+                recdfechfn: new Date("2026-06-09T17:27:00"),
+                recdfechs: new Date("2026-06-09T17:27:00"),
+                recdcom1: "no pago",
+                recdcom2: "",
+                recdlatub: -0.1154124,
+                recdlonub: -78.4897414,
+                recdlat: -0.1154124,
+                recdlon: -78.4897414
+            },
+            {
+                recdid: 16,
+                recdidrec: 2,
+                recdusu: "PC",
+                recdclave: "1707550578001",
+                recddoc: "1707550578001",
+                recdnomb: "NAVAS VELEZ JACQUELINE DE LAS MERCEDES",
+                recdlugc: "",
+                recdlug: "",
+                recdibemp: 0,
+                recdemp: "emporio2025",
+                recdtipc: "00001",
+                recdtip: "PEDIDO",
+                recddirn: 1,
+                recddir: "AV LA PRENSA 25 Y SABANILLA",
+                recdfin: true,
+                recdfechin: new Date("2026-06-09T17:40:00"),
+                recdfechfn: new Date("2026-06-09T17:40:00"),
+                recdfechs: new Date("2026-06-09T17:40:00"),
+                recdcom1: "pedido ",
+                recdcom2: "",
+                recdlatub: -0.1205166,
+                recdlonub: -78.4939649,
+                recdlat: -0.1205166,
+                recdlon: -78.4939649
+            },
+            {
+                recdid: 17,
+                recdidrec: 2,
+                recdusu: "PC",
+                recdclave: "1715598015001",
+                recddoc: "1715598015001",
+                recdnomb: "CEPEDA GUACHO FAUSTO RODRIGO",
+                recdlugc: "",
+                recdlug: "",
+                recdibemp: 0,
+                recdemp: "emporio2025",
+                recdtipc: "00001",
+                recdtip: "PEDIDO",
+                recddirn: 1,
+                recddir: "LIZARDO RUIS Y MARCELINO NAVARRETE LA OFELIA",
+                recdfin: true,
+                recdfechin: new Date("2026-06-09T17:56:00"),
+                recdfechfn: new Date("2026-06-09T17:56:00"),
+                recdfechs: new Date("2026-06-09T17:56:00"),
+                recdcom1: "no hay pedido ",
+                recdcom2: "",
+                recdlatub: -0.1142155,
+                recdlonub: -78.4937584,
+                recdlat: -0.1142155,
+                recdlon: -78.4937584
+            },
+            {
+                recdid: 18,
+                recdidrec: 2,
+                recdusu: "PC",
+                recdclave: "1725681850",
+                recddoc: "1725681850",
+                recdnomb: "CEPEDA GUACHO JIMENA ISABEL",
+                recdlugc: "",
+                recdlug: "",
+                recdibemp: 0,
+                recdemp: "emporio2025",
+                recdtipc: "00001",
+                recdtip: "PEDIDO",
+                recddirn: 1,
+                recddir: "cotocollao",
+                recdfin: true,
+                recdfechin: new Date("2026-06-09T18:07:00"),
+                recdfechfn: new Date("2026-06-09T18:07:00"),
+                recdfechs: new Date("2026-06-09T18:07:00"),
+                recdcom1: "cotocollao ",
+                recdcom2: "",
+                recdlatub: -0.1140955,
+                recdlonub: -78.4934537,
+                recdlat: -0.1140955,
+                recdlon: -78.4934537
+            }
+        ]
+    }
+];*/
+
 
   // Subject para manejo de subscripciones
   private destroy$ = new Subject<void>();
@@ -198,6 +414,9 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     this.getAllUsers();
     this.subscribeToMapService();
     this.startUserLocationPolling();
+
+      //console.log(this.recorridomanual)
+    
   }
 
   ngAfterViewInit(): void {
@@ -589,7 +808,8 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     pedidos: this.orders,
     //usuarios: this.customers,
     usuarios: this.selectedUser ?? {} as CUltimoRegxUsu,
-    recorrido: this.recorrido
+    recorrido: this.recorrido,
+    recorridomanual: this.recorridomanual
 };
     this.centerMapOnFilteredData(response);
   }
@@ -722,6 +942,10 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   refreshData(): void {
+    /*if (this.recorridomanual && this.recorridomanual.length > 0) {
+      this.mapService.addTrackingMarkersRecorridoManual(this.recorridomanual);
+    }*/
+    
     this.loading = true;
     this.selectedUser = null;
     this.filteredCustomers = [];
@@ -931,6 +1155,7 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
       )
       .subscribe({
         next: (response: RWebHistorialxDia) => {
+          console.log(response);
           this.processTrackingResponse(response);
           if (response.recorrido.length > 0) {
             this.mapService.focusRoute(response.recorrido);
@@ -1060,14 +1285,14 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
    * Valida que los filtros requeridos estén completos
    */
   private validateFilters(): boolean {
-    if (!this.pedidosEnabled && !this.collectionsEnabled) {
+    /*if (!this.pedidosEnabled && !this.collectionsEnabled) {
       this.msgService.add({
         severity: 'warn',
         summary: 'Validación',
         detail: 'Seleccione al menos un tipo de transacción'
       });
       return false;
-    }
+    }*/
     if (this.selectedTimeUnit && (!this.timeValue || this.timeValue <= 0)) {
       this.msgService.add({
         severity: 'warn',
@@ -1091,6 +1316,7 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     this.charges = this.collectionsEnabled && response.cobros ? response.cobros : [];
     this.orders = this.pedidosEnabled && response.pedidos ? response.pedidos : [];
     this.recorrido = response.recorrido ? response.recorrido : [];
+    this.recorridomanual = response.recorridomanual ? response.recorridomanual : [];
     this.ultimxrecorrido = this.recorrido.length > 0 ? this.recorrido[0] : null;
 
     this.filterCustomers();
