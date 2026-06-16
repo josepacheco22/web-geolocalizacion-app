@@ -138,6 +138,7 @@
 
 
 
+									@if (filtroMostar.recorridoautomatico) {
 
 									@if (selectedUser.latitud && selectedUser.longitud && ultimxrecorrido != null) {
 									@if (
@@ -312,6 +313,9 @@
 										</div>
 									</span>
 
+
+								}
+
 									<p-accordion [(value)]="AcordionRecorrido" (click)="AcordionListas=''">
 										<p-accordion-panel value="0">
 											<!--<p-accordion-header
@@ -484,6 +488,8 @@
 							<!-- Accordion de Clientes Asignados -->
 							<!--<p-accordion  class="shadow-sm" [value]="0">-->
 							<p-accordion [(value)]="AcordionListas" (click)="AcordionRecorrido=''">
+
+								@if(filtroMostar.clientes){
 								<p-accordion-panel value="0">
 									<p-accordion-header style="padding: 0.8rem;">
 										<div class="flex align-items-center gap-2 w-full">
@@ -635,6 +641,8 @@
 										</div>
 									</p-accordion-content>
 								</p-accordion-panel>
+}
+@if(filtroMostar.pedidos){
 								<p-accordion-panel value="1">
 									<p-accordion-header style="padding: 0.8rem;">
 										<div class="flex align-items-center gap-2 w-full">
@@ -778,6 +786,8 @@
 										</div>
 									</p-accordion-content>
 								</p-accordion-panel>
+}
+@if(filtroMostar.cobros){
 								<p-accordion-panel value="2">
 									<p-accordion-header style="padding: 0.8rem;">
 										<div class="flex align-items-center gap-2 w-full">
@@ -924,6 +934,8 @@
 										</div>
 									</p-accordion-content>
 								</p-accordion-panel>
+							}
+
 							</p-accordion>
 						</div>
 						}
@@ -1427,41 +1439,41 @@
 
 						<div class="flex gap-4 p-2 bg-surface-50 dark:bg-surface-800 border-round">
 							<div class="flex align-items-center gap-2">
-								<p-checkbox inputId="cobros-compact" [(ngModel)]="filtroMostar.cobros"
+								<p-checkbox inputId="cobros-compact" (change)="processTrackingResponseLocal()" [(ngModel)]="filtroMostar.cobros"
 									[binary]="true"></p-checkbox>
-								<label (click)="filtroMostar.cobros=!filtroMostar.cobros"  for="cobros-compact"
+								<label (click)="filtroMostar.cobros=!filtroMostar.cobros;processTrackingResponseLocal()"  for="cobros-compact"
 									class="text-sm text-surface-700 dark:text-surface-300 cursor-pointer">
 									<i class="pi pi-dollar mr-1"></i>Cobros
 								</label>
 							</div>
 							<div class="flex align-items-center gap-2">
-								<p-checkbox inputId="pedidos-compact" [(ngModel)]="filtroMostar.pedidos"
+								<p-checkbox inputId="pedidos-compact" (change)="processTrackingResponseLocal()" [(ngModel)]="filtroMostar.pedidos"
 									[binary]="true"></p-checkbox>
-								<label (click)="filtroMostar.pedidos=!filtroMostar.pedidos"  for="pedidos-compact"
+								<label (click)="filtroMostar.pedidos=!filtroMostar.pedidos;processTrackingResponseLocal()"  for="pedidos-compact"
 									class="text-sm text-surface-700 dark:text-surface-300 cursor-pointer">
 									<i class="pi pi-shopping-cart mr-1"></i>Pedidos
 								</label>
 							</div>
 							<div   class="flex align-items-center gap-2">
-								<p-checkbox inputId="clientes-compact" [(ngModel)]="filtroMostar.clientes"
+								<p-checkbox inputId="clientes-compact" (change)="processTrackingResponseLocal()" [(ngModel)]="filtroMostar.clientes"
 									[binary]="true"></p-checkbox>
-								<label (click)="filtroMostar.clientes=!filtroMostar.clientes" for="clientes-compact"
+								<label (click)="filtroMostar.clientes=!filtroMostar.clientes;processTrackingResponseLocal()" for="clientes-compact"
 									class="text-sm text-surface-700 dark:text-surface-300 cursor-pointer">
 									<i class="pi pi-users mr-1"></i>Clientes
 								</label>
 							</div>
 							<div  class="flex align-items-center gap-2">
-								<p-checkbox inputId="recorridoautomatico-compact" [(ngModel)]="filtroMostar.recorridoautomatico"
+								<p-checkbox inputId="recorridoautomatico-compact" (change)="processTrackingResponseLocal()" [(ngModel)]="filtroMostar.recorridoautomatico"
 									[binary]="true"></p-checkbox>
-								<label (click)="filtroMostar.recorridoautomatico=!filtroMostar.recorridoautomatico" for="recorridoautomatico-compact"
+								<label (click)="filtroMostar.recorridoautomatico=!filtroMostar.recorridoautomatico;processTrackingResponseLocal()" for="recorridoautomatico-compact"
 									class="text-sm text-surface-700 dark:text-surface-300 cursor-pointer">
 									<i class="pi pi-map mr-1"></i>Recorrido Automatico
 								</label>
 							</div>
 							<div   class="flex align-items-center gap-2 ">
-								<p-checkbox inputId="recorridomanual-compact" [(ngModel)]="filtroMostar.recorridomanual"
+								<p-checkbox inputId="recorridomanual-compact" (change)="processTrackingResponseLocal()" [(ngModel)]="filtroMostar.recorridomanual"
 									[binary]="true"></p-checkbox>
-								<label (click)="filtroMostar.recorridomanual=!filtroMostar.recorridomanual" for="recorridomanual-compact"
+								<label (click)="filtroMostar.recorridomanual=!filtroMostar.recorridomanual;processTrackingResponseLocal()" for="recorridomanual-compact"
 									class="text-sm text-surface-700 dark:text-surface-300 cursor-pointer">
 									<i class="pi pi-map mr-1"></i>Recorrido Manual
 								</label>

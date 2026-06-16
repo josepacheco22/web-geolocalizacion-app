@@ -166,8 +166,8 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     cobros: true,
   };
 
-  recorridomanual: RPOSTGeolocalizacionReportesRecorridosDetalles[] = []/*
-[
+  recorridomanual: RPOSTGeolocalizacionReportesRecorridosDetalles[] = []
+  /*[
     {
         id: 2,
         usuario: "PC",
@@ -1115,6 +1115,7 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
   /**
    * Aplica los filtros seleccionados y realiza la petición
    */
+  
   applyFilters(): void {
 
     if (!this.selectedUser) {
@@ -1155,7 +1156,7 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
       )
       .subscribe({
         next: (response: RWebHistorialxDia) => {
-          console.log(response);
+          //console.log(response);
           this.processTrackingResponse(response);
           if (response.recorrido.length > 0) {
             this.mapService.focusRoute(response.recorrido);
@@ -1168,7 +1169,7 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
           });
         },
         error: (error: HttpErrorResponse) => {
-          console.error('Error al aplicar filtros:', error);
+          //console.error('Error al aplicar filtros:', error);
           this.msgService.add({
             severity: 'error',
             summary: 'Error',
@@ -1304,6 +1305,46 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     return true;
   }
 
+  public processTrackingResponseLocal(): void {
+    //this.validateTrackingDataAvailability(response);
+
+
+    /*this.loadingCustomers = false;
+    this.loadingCharges = false;
+    this.loadingOrders = false;*/
+/*
+    this.customers = response.clientes || [];
+    this.charges = this.collectionsEnabled && response.cobros ? response.cobros : [];
+    this.orders = this.pedidosEnabled && response.pedidos ? response.pedidos : [];
+    this.recorrido = response.recorrido ? response.recorrido : [];
+    this.recorridomanual = response.recorridomanual ? response.recorridomanual : [];
+    this.ultimxrecorrido = this.recorrido.length > 0 ? this.recorrido[0] : null;
+*/
+    /*this.filterCustomers();
+    this.filterCharges();
+    this.filterOrders();*/
+    this.mapService.clearChargeMarkers();
+    this.mapService.clearOrderMarkers();
+    this.mapService.clearCustomerMarkers();
+    this.mapService.clearCombinedMarkers();
+    this.mapService.clearTrackingMarkers();
+
+
+    if(this.filtroMostar.recorridoautomatico){
+      if (this.recorrido && this.recorrido.length > 0) {
+        this.mapService.addTrackingMarkers(this.recorrido.sort((a, b) => a.geubid - b.geubid));
+      }
+    }
+    console.log('Clientes a mostrar:', this.filtroMostar);
+    this.mapService.addCombinedMarkers(
+      this.filtroMostar.cobros?this.charges:[],
+      this.filtroMostar.pedidos?this.orders:[],
+      this.filtroMostar.clientes?this.customers:[]
+    );
+    //this.centerMapOnFilteredData(this.recorrido);
+  }
+
+
   private processTrackingResponse(response: RWebHistorialxDia): void {
     this.validateTrackingDataAvailability(response);
 
@@ -1337,7 +1378,6 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
 
     this.centerMapOnFilteredData(response);
   }
-
   /**
    * Centra el mapa en base a los datos filtrados
    */

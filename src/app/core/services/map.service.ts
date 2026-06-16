@@ -13,6 +13,7 @@ import { CUltimoRegxUsu } from '../models/CUltimoRegxUsu';
 import { Mgeorecd, Mpa_GEO_Clientes, Mpa_GEO_Cobros, Mpa_GEO_Pedidos, Mpa_UltUbi, RPOSTGeolocalizacionReportesRecorridosDetalles, RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal, RWebHistorialxDia } from '../models/Responses/RWebHistorialxDia';
 import { TooltipModule } from 'primeng/tooltip';
 import { MTabla } from '../models/Responses/MTabla';
+import { IFiltroMostrar } from '@/pages/geocercas/geocercas-list/geocercas-list.component';
 
 
 //===== INTERFACES ======//
@@ -381,6 +382,7 @@ export class MapService {
     this.map.addLayer(this.combinedClusterGroup!);
   }
 
+ 
   addCombinedMarkers(charges: Mpa_GEO_Cobros[], orders: Mpa_GEO_Pedidos[], customers: Mpa_GEO_Clientes[]): void {
     if (!this.map || !this.L) {
       console.warn('Mapa o Leaflet no están inicializados');
