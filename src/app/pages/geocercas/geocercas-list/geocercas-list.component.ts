@@ -1370,11 +1370,17 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     this.mapService.clearCombinedMarkers();
     this.mapService.clearTrackingMarkers();
 
+    if(this.filtroMostar.recorridoautomatico){
     if (response.recorrido && response.recorrido.length > 0) {
       this.mapService.addTrackingMarkers(response.recorrido.sort((a, b) => a.geubid - b.geubid));
-    }
-
-    this.mapService.addCombinedMarkers(this.charges, this.orders, this.customers);
+    }}
+    
+    this.mapService.addCombinedMarkers(
+      this.filtroMostar.cobros?this.charges:[],
+      this.filtroMostar.pedidos?this.orders:[],
+      this.filtroMostar.clientes?this.customers:[]
+    );
+    //this.mapService.addCombinedMarkers(this.charges, this.orders, this.customers);
 
     this.centerMapOnFilteredData(response);
   }
