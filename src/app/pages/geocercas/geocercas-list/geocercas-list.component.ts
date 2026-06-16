@@ -120,7 +120,7 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
   selectedTimeUnit: any = null;
   timeValue: number | null = null;
   selectedGeofence: string[] = [];
-  geofenceEnabled: boolean = true;
+  geofenceEnabled: boolean = false;
   pedidosEnabled: boolean = false;
   collectionsEnabled: boolean = false;
   clientesNone: boolean = false;
