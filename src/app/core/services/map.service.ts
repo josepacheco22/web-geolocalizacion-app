@@ -2237,6 +2237,58 @@ ${fila.pedido ? `
       marker.openPopup();
     }
   }
+  focusOnRecorridoManualInicioFinal(posicion: RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal, zoom: number = 19): void {
+     if (!this.map || !posicion.latitud || !posicion.longitud) return;
+
+    this.map.flyTo([posicion.latitud, posicion.longitud], zoom, {
+      duration: 1.5
+    });
+
+    const map = this.map;
+    this.map.once('moveend', () => {
+      const marker = this.trackingMarkers.get(`${posicion.latitud}-${posicion.longitud}-${posicion.fecha}`);
+      if (marker != undefined) {
+        marker?.openPopup();
+        return
+      } else {
+        //`${posicion.latitud}-${posicion.longitud}-${posicion.fecha}`;
+        /*const popupContent = this.createTrackingMarkerRecorridoInicioFinal(posicion,usuario,fechafin,true,0);
+        L.popup({
+          maxWidth: 360,
+          className: 'custom-combined-popup'
+        })
+          .setLatLng([posicion.latitud, posicion.longitud])
+          .setContent(popupContent)
+          .openOn(map);*/
+      }
+    });
+  }
+  focusOnRecorridoManualDetalle(posicion: Mgeorecd, zoom: number = 19): void {
+     if (!this.map || !posicion.recdlatub || !posicion.recdlonub) return;
+
+    this.map.flyTo([posicion.recdlatub, posicion.recdlonub], zoom, {
+      duration: 1.5
+    });
+
+    const map = this.map;
+    this.map.once('moveend', () => {
+      const marker = this.trackingMarkers.get(`${posicion.recdlatub}-${posicion.recdlonub}-${posicion.recdfechin}`);
+      if (marker != undefined) {
+        marker?.openPopup();
+        return
+      } else {
+        //`${posicion.latitud}-${posicion.longitud}-${posicion.fecha}`;
+        /*const popupContent = this.createTrackingMarkerRecorridoInicioFinal(posicion,usuario,fechafin,true,0);
+        L.popup({
+          maxWidth: 360,
+          className: 'custom-combined-popup'
+        })
+          .setLatLng([posicion.latitud, posicion.longitud])
+          .setContent(popupContent)
+          .openOn(map);*/
+      }
+    });
+  }
   focusPoint(usucod: string, latitud: number, longitud: number): void {
     if (!this.map) return;
     this.map.setView([latitud, longitud], 15);
@@ -2594,7 +2646,7 @@ ${fila.pedido ? `
               if (recorrdido.final != null) {
                 fechaFin = recorrdido.final.fecha;
               }
-              const marker = this.createTrackingMarkerRecorridoInicioFinal(recorrdido.final, recorrdido.usuario, recorrdido.inicio.fecha, true, true, 0);
+              const marker = this.createTrackingMarkerRecorridoInicioFinal(recorrdido.final, recorrdido.usuario, recorrdido.inicio.fecha, false, true, 0);
               const markerId = `${recorrdido.final.latitud}-${recorrdido.final.longitud}-${recorrdido.final.fecha}`;
               this.trackingMarkers.set(markerId, marker);
               this.trackingClusterGroup?.addLayer(marker);
