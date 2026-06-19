@@ -1,0 +1,9 @@
+
+
+::ng-deep .p-accordioncontent-content {
+  padding: 0 !important;
+}
+
+::ng-deep p-accordion-header {
+  padding: 0.5rem !important;
+}

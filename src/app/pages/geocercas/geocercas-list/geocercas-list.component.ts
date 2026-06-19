@@ -166,8 +166,8 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     cobros: true,
   };
 
-  recorridomanual: RPOSTGeolocalizacionReportesRecorridosDetalles[] = //[]
-    [
+  recorridomanual: RPOSTGeolocalizacionReportesRecorridosDetalles[] = []
+    /*[
       {
         id: 2,
         usuario: "PC",
@@ -371,7 +371,7 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
           }
         ]
       }
-    ];
+    ];*/
 
 
   // Subject para manejo de subscripciones
@@ -405,6 +405,7 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
   defaultRadius: number = 1000;
 
   AcordionRecorrido: string = '';
+  AcordionRecorridoManual: string = '';
   AcordionListas: string = '';
   fechaActual = new Date();
 
@@ -815,7 +816,7 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     //this.selectedUser = user;
     this.mapService.focusOnRecorridoManualInicioFinal(punto);
   }
-  
+
   selectOnlyRecorridoManualDetalle(punto: Mgeorecd): void {
     //this.selectedUser = user;
     this.mapService.focusOnRecorridoManualDetalle(punto);
@@ -1343,6 +1344,7 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     /*this.filterCustomers();
     this.filterCharges();
     this.filterOrders();*/
+
     this.mapService.clearChargeMarkers();
     this.mapService.clearOrderMarkers();
     this.mapService.clearCustomerMarkers();
@@ -1350,17 +1352,34 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     this.mapService.clearTrackingMarkers();
 
 
+
+    /*if (this.filtroMostar.recorridomanual) {
+      if (this.recorridomanual && this.recorridomanual.length > 0) {
+        this.mapService.addTrackingMarkersRecorridoManual(this.recorridomanual);
+      }
+    }
+
     if (this.filtroMostar.recorridoautomatico) {
       if (this.recorrido && this.recorrido.length > 0) {
         this.mapService.addTrackingMarkers(this.recorrido.sort((a, b) => a.geubid - b.geubid));
       }
-    }
-    console.log('Clientes a mostrar:', this.filtroMostar);
+    }*/
+    this.mapService.addTrackingMarkersRecorridos(
+      this.filtroMostar.recorridoautomatico ? this.recorrido.sort((a, b) => a.geubid - b.geubid) : [],
+      this.filtroMostar.recorridomanual ? this.recorridomanual : []
+    )
+
+    /*if (this.filtroMostar.recorridomanual || this.filtroMostar.recorridoautomatico) {
+      this.mapService.initializeTrackingCluster();
+    }*/
+
+
     this.mapService.addCombinedMarkers(
       this.filtroMostar.cobros ? this.charges : [],
       this.filtroMostar.pedidos ? this.orders : [],
       this.filtroMostar.clientes ? this.customers : []
     );
+    //console.log('Clientes a mostrar:', this.filtroMostar);
     //this.centerMapOnFilteredData(this.recorrido);
   }
 
@@ -1377,7 +1396,16 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     this.charges = this.collectionsEnabled && response.cobros ? response.cobros : [];
     this.orders = this.pedidosEnabled && response.pedidos ? response.pedidos : [];
     this.recorrido = response.recorrido ? response.recorrido : [];
-    //this.recorridomanual = response.recorridomanual ? response.recorridomanual : [];
+    this.recorridomanual = response.recorridomanual ? response.recorridomanual : [];
+
+    this.recorridomanual.forEach((item) => {
+      item.detalle = item.detalle.sort(
+        (a, b) => a.recdid - b.recdid
+      )
+    });
+    
+    /*console.log('Recorrido manual:', response.recorridomanual);
+    console.log(this.recorridomanual);*/
     this.ultimxrecorrido = this.recorrido.length > 0 ? this.recorrido[0] : null;
 
     this.filterCustomers();
@@ -1389,23 +1417,38 @@ export class GeocercasListComponent implements OnInit, AfterViewInit, OnDestroy 
     this.mapService.clearCustomerMarkers();
     this.mapService.clearCombinedMarkers();
     this.mapService.clearTrackingMarkers();
-    
-    if (this.filtroMostar.recorridomanual) {
-      this.mapService.addTrackingMarkersRecorridoManual(this.recorridomanual);
+
+
+
+
+    /*if (this.filtroMostar.recorridomanual) {
+      if (response.recorridomanual && response.recorridomanual.length > 0) {
+        //console.log('Recorrido manual:', this.recorridomanual);
+        this.mapService.addTrackingMarkersRecorridoManual(this.recorridomanual);
+      }
     }
     if (this.filtroMostar.recorridoautomatico) {
       if (response.recorrido && response.recorrido.length > 0) {
         this.mapService.addTrackingMarkers(response.recorrido.sort((a, b) => a.geubid - b.geubid));
       }
-    }
+    }*/
+
+    this.mapService.addTrackingMarkersRecorridos(
+      this.filtroMostar.recorridoautomatico ? this.recorrido.sort((a, b) => a.geubid - b.geubid) : [],
+      this.filtroMostar.recorridomanual ? this.recorridomanual : []
+    )
+
+
+    /*
+       if (this.filtroMostar.recorridomanual || this.filtroMostar.recorridoautomatico) {
+         this.mapService.initializeTrackingCluster();
+       }*/
 
     this.mapService.addCombinedMarkers(
       this.filtroMostar.cobros ? this.charges : [],
       this.filtroMostar.pedidos ? this.orders : [],
       this.filtroMostar.clientes ? this.customers : []
     );
-    //this.mapService.addCombinedMarkers(this.charges, this.orders, this.customers);
-
     this.centerMapOnFilteredData(response);
   }
   /**

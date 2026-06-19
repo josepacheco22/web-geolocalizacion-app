@@ -362,42 +362,6 @@
 									}}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 									@if (filtroMostar.recorridomanual) {
 									@if (recorridomanual) {
 									<span class=" px-2.5 py-1 rounded-lg bg-surface-100/80 dark:bg-surface-900/60 border border-surface-200/60 dark:border-surface-500/60 text-xs font-mono font-medium text-surface-700 dark:text-surface-300 
@@ -463,7 +427,11 @@
 											</div>
 											}
 											@if(item.final){
-											<hr style="margin: 0.4rem 0 0.4rem 0;" />
+											<div class="flex items-center mb-1">
+												<div class="flex-grow border-t border-gray-500"></div>
+												<span class="mx-1 text-gray-500 text-sm">Recorrido</span>
+												<div class="flex-grow border-t border-gray-500"></div>
+											</div>
 											<div class=""
 												style="display: flex;    flex-direction: row;    align-items: flex-start;    justify-content: space-between;">
 												<div>
@@ -521,13 +489,12 @@
 											}
 											@if(item.detalle){
 											@if(item.detalle.length > 0){
+											@if (item.detalle.length == 1) {
 											<div class="flex items-center mb-1">
 												<div class="flex-grow border-t border-gray-500"></div>
 												<span class="mx-1 text-gray-500 text-sm">Recorrido</span>
 												<div class="flex-grow border-t border-gray-500"></div>
 											</div>
-											@if (item.detalle.length > 0) {
-
 											<span class="flex items-center justify-between px-1.5 py-1 mb-0 rounded-lg bg-surface-100/80 dark:bg-surface-900/60 border border-surface-200/60 dark:border-surface-500/60 text-xs font-mono font-medium text-surface-700 dark:text-surface-300 
 														">
 												<div class="flex items-center justify-between " style="flex: 1;">
@@ -597,469 +564,102 @@
 
 												</div>
 											</span>
-
-
-
 											}@else{
-
-
-
-
-
-												
-											}
-											}
-											}
-
-											@let lista = recorrido ?? [];
-											@if (lista.length > 0) {
-											<div class="flex items-center mb-1">
-												<div class="flex-grow border-t border-gray-500"></div>
-												<span class="mx-1 text-gray-500 text-sm">Recorrido</span>
-												<div class="flex-grow border-t border-gray-500"></div>
-											</div>
-											@if (lista.length == 1) {
-											@if (ultimxrecorrido != null) {
-											<!--<span class="flex items-center justify-between px-2.5 py-1 rounded-lg bg-surface-100/80 dark:bg-surface-900/60 border border-surface-200/60 dark:border-surface-500/60 text-xs font-mono font-medium text-surface-700 dark:text-surface-300 
-												 mt-2">
-											<div class="flex items-center justify-between">
-												<span
-													class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-lg bg-primary-100/80 dark:bg-primary-900/40 hover:bg-primary-200/80 dark:hover:bg-primary-900/60 border border-primary-200/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-xs font-medium transition-all duration-200 mr-1">
-													{{ultimxrecorrido.geubid}}
-												</span>
-												<div>
-													<div
-														class="flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400 pb-1">
-														<i class="pi pi-map-marker text-green-500 w-3"></i>
-														<span
-															class="font-mono text-surface-700 dark:text-surface-300">{{
-															ultimxrecorrido.geublat | number:'1.6-6' }},{{
-															ultimxrecorrido.geublon | number:'1.6-6' }}</span>
-													</div>
-													<div
-														class="flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400">
-														<i class="pi pi-clock text-blue-500 w-3"></i>
-														<span
-															class="font-mono text-surface-700 dark:text-surface-300">{{
-															ultimxrecorrido.geubfech | date:'dd/MM/yyyy HH:mm:ss'
-															}}</span>
-													</div>
-												</div>
-											</div>
-											<div>
-												@if (ultimxrecorrido.geublat && ultimxrecorrido.geublon) {
-												<button
-													(click)="focusPointRecorrido(selectedUser,ultimxrecorrido.geublat,ultimxrecorrido.geublon)"
-													class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-lg bg-primary-100/80 dark:bg-primary-900/40 hover:bg-primary-200/80 dark:hover:bg-primary-900/60 border border-primary-200/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-xs font-medium transition-all duration-200 mr-1"
-													title="Ubicar Mapa">
-													<i class="pi pi-map-marker text-xs"></i>
-												</button>
-												}
-												<button
-													(click)="copyCoordinatesNumber(ultimxrecorrido.geublat,ultimxrecorrido.geublon)"
-													class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-lg bg-primary-100/80 dark:bg-primary-900/40 hover:bg-primary-200/80 dark:hover:bg-primary-900/60 border border-primary-200/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-xs font-medium transition-all duration-200"
-													title="Copiar coordenadas">
-													<i class="pi pi-copy text-xs"></i>
-												</button>
-											</div>
-										</span>-->
-											}
-											}@else{
-											<!--<span class="flex items-center justify-between px-1.5 py-1 mb-0 rounded-lg bg-surface-100/80 dark:bg-surface-900/60 border border-surface-200/60 dark:border-surface-500/60 text-xs font-mono font-medium text-surface-700 dark:text-surface-300 
+											<p-accordion >
+												<p-accordion-panel value="3">
+											<p-accordion-header> 
+												Recorrido
+											</p-accordion-header>
+													<p-accordion-content class="p-0" style="padding: 0;">
+																												<div class="p-0 space-y-1 max-h-[20rem] overflow-y-auto">
+															@for (itemd of item.detalle; track itemd; let i = $index) {
+															<!--@if (i > 0) {-->
+	<span class="flex items-center justify-between px-1.5 py-1 mb-0 rounded-lg bg-surface-100/80 dark:bg-surface-900/60 border border-surface-200/60 dark:border-surface-500/60 text-xs font-mono font-medium text-surface-700 dark:text-surface-300 
 														">
-											<div class="flex items-center justify-between mr-2" style="flex: 1;">
-												@if (ultimxrecorrido != null) {
-												<div>
-													<div class="flex items-center justify-between">
-														<span
-															class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-lg bg-primary-100/80 dark:bg-primary-900/40 hover:bg-primary-200/80 dark:hover:bg-primary-900/60 border border-primary-200/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-xs font-medium transition-all duration-200 mr-1">
-															{{ultimxrecorrido.geubid}}
-														</span>
-														<div>
-															<div
-																class="flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400 pb-1">
-																<i class="pi pi-map-marker text-green-500 w-3"></i>
-																<span
-																	class="font-mono text-surface-700 dark:text-surface-300">{{
-																	ultimxrecorrido.geublat | number:'1.6-6' }},{{
-																	ultimxrecorrido.geublon | number:'1.6-6'
-																	}}</span>
-															</div>
-															<div
-																class="flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400">
-																<i class="pi pi-clock text-blue-500 w-3"></i>
-																<span
-																	class="font-mono text-surface-700 dark:text-surface-300">{{
-																	ultimxrecorrido.geubfech | date:'dd/MM/yyyy
-																	HH:mm:ss'
-																	}}</span>
+												<div class="flex items-center justify-between " style="flex: 1;">
+													<div>
+														<div class="flex items-center justify-between">
+
+															<div>
+																<div
+																	class="flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400 pb-1">
+																	<i class="pi pi-map-marker text-green-500 w-3"></i>
+																	<span
+																		class="font-mono text-surface-700 dark:text-surface-300">{{
+																		itemd.recdlatub | number:'1.6-6' }},{{
+																		itemd.recdlonub | number:'1.6-6'
+																		}}</span>
+																</div>
+
+																<div
+																	class="flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400">
+																	Inicio:
+																	<span
+																		class="font-mono text-surface-700 dark:text-surface-300">{{
+																		itemd.recdfechin | date:'dd/MM/yyyy
+																		HH:mm:ss'
+																		}}</span>
+																</div>
+																<div
+																	class="flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400">
+																	Final:
+																	<span
+																		class="font-mono text-surface-700 dark:text-surface-300">{{
+																		itemd.recdfechfn | date:'dd/MM/yyyy
+																		HH:mm:ss'
+																		}}</span>
+																</div>
+																<div
+																	class="flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400">
+																	Tiempo:
+																	<span
+																		class="font-mono text-surface-700 dark:text-surface-300">{{
+																		calcularTiempoTranscurrido(itemd.recdfechin!,itemd.recdfechfn!)
+																		}}</span>
+																</div>
+
+
+
+
 															</div>
 														</div>
 													</div>
-												</div>
-												<div>
-													@if (ultimxrecorrido.geublat && ultimxrecorrido.geublon) {
-													<button (click)="focusRecorridoUltimo(ultimxrecorrido)"
-														class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-lg bg-primary-100/80 dark:bg-primary-900/40 hover:bg-primary-200/80 dark:hover:bg-primary-900/60 border border-primary-200/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-xs font-medium transition-all duration-200 mr-1"
-														title="Ubicar Mapa">
-														<i class="pi pi-map-marker text-xs"></i>
-													</button>
-													}
-													<button
-														(click)="copyCoordinatesNumber(ultimxrecorrido.geublat,ultimxrecorrido.geublon)"
-														class="inline-flex items-center gap-2 px-1.5 py-1.5  rounded-lg bg-primary-100/80 dark:bg-primary-900/40 hover:bg-primary-200/80 dark:hover:bg-primary-900/60 border border-primary-200/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-xs font-medium transition-all duration-200 mr-2"
-														title="Copiar coordenadas">
-														<i class="pi pi-copy text-xs"></i>
-													</button>
-													<svg (click)="AcordionRecorrido=(AcordionRecorrido==''?'0':'')"
-														width="14" height="14" viewBox="0 0 14 14" fill="none"
-														xmlns="http://www.w3.org/2000/svg" data-p-icon="chevron-down"
-														aria-hidden="true" class="p-icon ng-star-inserted" pc187="">
-														<path
-															d="M7.01744 10.398C6.91269 10.3985 6.8089 10.378 6.71215 10.3379C6.61541 10.2977 6.52766 10.2386 6.45405 10.1641L1.13907 4.84913C1.03306 4.69404 0.985221 4.5065 1.00399 4.31958C1.02276 4.13266 1.10693 3.95838 1.24166 3.82747C1.37639 3.69655 1.55301 3.61742 1.74039 3.60402C1.92777 3.59062 2.11386 3.64382 2.26584 3.75424L7.01744 8.47394L11.769 3.75424C11.9189 3.65709 12.097 3.61306 12.2748 3.62921C12.4527 3.64535 12.6199 3.72073 12.7498 3.84328C12.8797 3.96582 12.9647 4.12842 12.9912 4.30502C13.0177 4.48162 12.9841 4.662 12.8958 4.81724L7.58083 10.1322C7.50996 10.2125 7.42344 10.2775 7.32656 10.3232C7.22968 10.3689 7.12449 10.3944 7.01744 10.398Z"
-															fill="currentColor"></path>
-													</svg>
-
-												</div>
-
-												}
-											</div>
-										</span>-->
-											}
-											<!--
-										<p-accordion [(value)]="AcordionRecorrido" (click)="AcordionListas=''">
-											<p-accordion-panel value="0">
-												<p-accordion-content class="p-0">
-													<div class="p-0 space-y-1 max-h-[20rem] overflow-y-auto">
-														@for (item of recorridoDesdeSegundo; track item) {
-														<span class="flex items-center justify-between px-1.5 py-1 rounded-lg bg-surface-100/80 dark:bg-surface-900/60 border border-surface-200/60 dark:border-surface-500/60 text-xs font-mono font-medium text-surface-700 dark:text-surface-300 
-														">
-															<div class="flex items-center justify-between">
-																<span
-																	class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-lg bg-primary-100/80 dark:bg-primary-900/40 hover:bg-primary-200/80 dark:hover:bg-primary-900/60 border border-primary-200/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-xs font-medium transition-all duration-200 mr-1">
-																	{{item.geubid}}
-																</span>
-																<div>
-																	<div
-																		class="flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400 pb-1">
-																		<i
-																			class="pi pi-map-marker text-green-500 w-3"></i>
-																		<span
-																			class="font-mono text-surface-700 dark:text-surface-300">
-																			{{item.geublat | number:'1.6-6'
-																			}},{{item.geublon |
-																			number:'1.6-6' }}
-																		</span>
-																	</div>
-																	<div
-																		class="flex items-center gap-2 text-xs text-surface-600 dark:text-surface-400">
-																		<i class="pi pi-clock text-blue-500 w-3"></i>
-																		<span
-																			class="font-mono text-surface-700 dark:text-surface-300">
-																			{{item.geubfech | date:'dd/MM/yyyy
-																			HH:mm:ss'}}
-																		</span>
-																	</div>
-																</div>
-															</div>
-															<div>
-																<button (click)="focusRecorrido(item)"
-																	class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-lg bg-primary-100/80 dark:bg-primary-900/40 hover:bg-primary-200/80 dark:hover:bg-primary-900/60 border border-primary-200/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-xs font-medium transition-all duration-200 mr-1"
-																	title="Ubicar Mapa">
-																	<i class="pi pi-map-marker text-xs"></i>
-																</button>
-																<button
-																	(click)="copyCoordinatesNumber(item.geublat,item.geublon)"
-																	class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-lg bg-primary-100/80 dark:bg-primary-900/40 hover:bg-primary-200/80 dark:hover:bg-primary-900/60 border border-primary-200/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-xs font-medium transition-all duration-200"
-																	title="Copiar coordenadas">
-																	<i class="pi pi-copy text-xs"></i>
-																</button>
-															</div>
-														</span>
+													<div>
+														@if (itemd.recdlatub && itemd.recdlonub) {
+														<button
+															(click)="selectOnlyRecorridoManualDetalle(itemd)"
+															class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-lg bg-primary-100/80 dark:bg-primary-900/40 hover:bg-primary-200/80 dark:hover:bg-primary-900/60 border border-primary-200/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-xs font-medium transition-all duration-200 mr-1"
+															title="Ubicar Mapa">
+															<i class="pi pi-map-marker text-xs"></i>
+														</button>
+														<button
+															(click)="copyCoordinatesNumber(itemd.recdlatub,itemd.recdlonub)"
+															class="inline-flex items-center gap-2 px-1.5 py-1.5  rounded-lg bg-primary-100/80 dark:bg-primary-900/40 hover:bg-primary-200/80 dark:hover:bg-primary-900/60 border border-primary-200/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-xs font-medium transition-all duration-200 "
+															title="Copiar coordenadas">
+															<i class="pi pi-copy text-xs"></i>
+														</button>
 														}
 													</div>
 
-												</p-accordion-content>
-											</p-accordion-panel>
-										</p-accordion>-->
+												</div>
+											</span>
+										<!--}-->
+															}
+														</div>
 
+													</p-accordion-content>
+												</p-accordion-panel>
+											</p-accordion>
+											}
+											}
 											}
 											}
 										</div>
 									</span>}}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-									<!-- @if (selectedUser.latitud && selectedUser.longitud) {
-									<div class="border-t border-surface-200/60 dark:border-surface-700/60 pt-3">
-										<div class="flex items-center justify-between mb-2">
-											<div class="flex items-center gap-2">
-												<div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-												<span
-													class="text-xs font-medium text-green-600 dark:text-green-400">Ubicación
-													activa</span>
-											</div>
-											@if (selectedUser.fechaubicacion) {
-											<span class="text-xs text-surface-500 dark:text-surface-500">
-												{{ getLocationTimeAgo(selectedUser.fechaubicacion) }}
-											</span>
-											}
-										</div>
-
-										<div
-											class="bg-white dark:bg-surface-700/50 rounded-lg border border-surface-200/60 dark:border-surface-600/60 p-2">
-											<div class="flex items-center justify-between">
-												<div class="flex items-center gap-2">
-													<i class="pi pi-compass text-blue-500 text-xs"></i>
-													<div class="flex items-center gap-3 text-xs">
-														<span class="text-surface-500 dark:text-surface-500">Lat:</span>
-														<span
-															class="font-mono text-surface-700 dark:text-surface-300">{{
-															selectedUser.latitud | number:'1.4-4' }}</span>
-														<span class="text-surface-300 dark:text-surface-600">|</span>
-														<span class="text-surface-500 dark:text-surface-500">Lng:</span>
-														<span
-															class="font-mono text-surface-700 dark:text-surface-300">{{
-															selectedUser.longitud | number:'1.4-4' }}</span>
-													</div>
-												</div>
-												<button (click)="copyCoordinates(selectedUser)"
-													class="text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 p-1 rounded hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all"
-													title="Copiar coordenadas">
-													<i class="pi pi-copy text-xs"></i>
-												</button>
-											</div>
-
-											@if (selectedUser.fechaubicacion) {
-											<div
-												class="mt-2 pt-2 border-t border-surface-200/40 dark:border-surface-600/40">
-												<div class="text-xs text-surface-600 dark:text-surface-400">
-													{{ formatLocationDateTime(selectedUser.fechaubicacion) }}
-												</div>
-											</div>
-											}
-										</div>
-									</div>
-									} @else {
-									<div class="border-t border-surface-200/60 dark:border-surface-700/60 pt-3">
-										<div
-											class="flex items-center gap-2 text-center bg-orange-50/80 dark:bg-orange-900/20 rounded-lg border border-orange-200/60 dark:border-orange-700/60 p-2">
-											<i
-												class="pi pi-exclamation-triangle text-orange-600 dark:text-orange-400 text-sm"></i>
-											<span class="text-xs text-orange-700 dark:text-orange-300 font-medium">Sin
-												ubicación registrada</span>
-										</div>
-									</div>
-									}-->
 								</div>
 							</div>
 
-							<!-- Accordion de Clientes Asignados -->
-							<!--<p-accordion  class="shadow-sm" [value]="0">-->
 							<p-accordion [(value)]="AcordionListas" (click)="AcordionRecorrido=''">
 
 								@if(filtroMostar.clientes){
@@ -1992,7 +1592,7 @@
 										</div>
 									</div>
 									<!-- Botones compactos -->
-									<div class="flex justify-content-end gap-2">
+									<div class="flex justify-content-end gap-2 mb-2">
 										<p-button label="Limpiar" icon="pi pi-refresh" severity="secondary" size="small"
 											(onClick)="clearFilters()" [text]="true">
 										</p-button>

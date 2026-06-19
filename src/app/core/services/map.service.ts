@@ -61,6 +61,7 @@ export class MapService {
   private orderMarkers = new Map<string, L.Marker>();
   private tablaMarkers = new Map<string, L.Marker>();
   private trackingPath: L.Polyline | null = null;
+  private trackingPathLista: L.Polyline[] = [];
   private trackingClusterGroup: L.MarkerClusterGroup | null = null;
   private chargeClusterGroup: L.MarkerClusterGroup | null = null;
   private orderClusterGroup: L.MarkerClusterGroup | null = null;
@@ -382,7 +383,7 @@ export class MapService {
     this.map.addLayer(this.combinedClusterGroup!);
   }
 
- 
+
   addCombinedMarkers(charges: Mpa_GEO_Cobros[], orders: Mpa_GEO_Pedidos[], customers: Mpa_GEO_Clientes[]): void {
     if (!this.map || !this.L) {
       console.warn('Mapa o Leaflet no están inicializados');
@@ -2238,7 +2239,7 @@ ${fila.pedido ? `
     }
   }
   focusOnRecorridoManualInicioFinal(posicion: RPOSTGeolocalizacionReportesRecorridosDetalles_iniciofinal, zoom: number = 19): void {
-     if (!this.map || !posicion.latitud || !posicion.longitud) return;
+    if (!this.map || !posicion.latitud || !posicion.longitud) return;
 
     this.map.flyTo([posicion.latitud, posicion.longitud], zoom, {
       duration: 1.5
@@ -2264,7 +2265,7 @@ ${fila.pedido ? `
     });
   }
   focusOnRecorridoManualDetalle(posicion: Mgeorecd, zoom: number = 19): void {
-     if (!this.map || !posicion.recdlatub || !posicion.recdlonub) return;
+    if (!this.map || !posicion.recdlatub || !posicion.recdlonub) return;
 
     this.map.flyTo([posicion.recdlatub, posicion.recdlonub], zoom, {
       duration: 1.5
@@ -2547,8 +2548,9 @@ ${fila.pedido ? `
   /**
    * Agrega marcadores de tracking (ubicaciones del vendedor) al mapa
    */
-  addTrackingMarkers(locations: Mpa_UltUbi[]): void {
-    if (!this.map || !this.L || locations.length === 0) {
+
+  addTrackingMarkersRecorridos(locations: Mpa_UltUbi[], recorridos: RPOSTGeolocalizacionReportesRecorridosDetalles[]): void {
+    if (!this.map || !this.L) {
       console.warn('Mapa, Leaflet o ubicaciones no están disponibles');
       return;
     }
@@ -2556,6 +2558,109 @@ ${fila.pedido ? `
     try {
       this.clearTrackingMarkers();
       this.initializeTrackingCluster();
+
+
+
+      if (locations.length > 0) {
+        const mostRecentLocation = locations[0];
+
+        locations.forEach((location, index) => {
+
+          if (location.geublat && location.geublon) {
+            try {
+              const isLastLocation = location.geubfech === mostRecentLocation.geubfech;
+              const marker = this.createTrackingMarker(location, index, isLastLocation);
+              const markerId = `${location.geublat}-${location.geublon}-${location.geubfech}`;
+              this.trackingMarkers.set(markerId, marker);
+              this.trackingClusterGroup?.addLayer(marker);
+            } catch (error) {
+              console.error('Error al agregar marcador de tracking:', error, location);
+            }
+          }
+        });
+        //this.createTrackingPath(locations);
+      }
+      if (recorridos.length > 0) {
+        recorridos.forEach((recorrdido, index) => {
+          //const marker = this.createTrackingMarker2(recorrdido.inicio, 0);
+          //recorrdido.inicio
+
+          if (recorrdido.inicio.latitud && recorrdido.inicio.longitud) {
+            try {
+              //const isLastLocation = location.geubfech === mostRecentLocation.geubfech;
+              let fechaFin: Date = new Date();
+              if (recorrdido.final != null) {
+                fechaFin = recorrdido.final.fecha;
+              }
+              const marker = this.createTrackingMarkerRecorridoInicioFinal(recorrdido.inicio, recorrdido.usuario, fechaFin, true, recorrdido.final != null, 0);
+              const markerId = `${recorrdido.inicio.latitud}-${recorrdido.inicio.longitud}-${recorrdido.inicio.fecha}`;
+              this.trackingMarkers.set(markerId, marker);
+              this.trackingClusterGroup?.addLayer(marker);
+            } catch (error) {
+              console.error('Error al agregar marcador de tracking:', error, location);
+            }
+          }
+          recorrdido.detalle.forEach((marca, index) => {
+            if (marca.recdlatub && marca.recdlonub) {
+              try {
+                //const isLastLocation = location.geubfech === mostRecentLocation.geubfech;
+                const marker = this.createTrackingMarkerRecorridoDetalle(marca, index);
+                const markerId = `${marca.recdlatub}-${marca.recdlonub}-${marca.recdfechin}`;
+                this.trackingMarkers.set(markerId, marker);
+                this.trackingClusterGroup?.addLayer(marker);
+              } catch (error) {
+                console.error('Error al agregar marcador de tracking:', error, location);
+              }
+            }
+          });
+          if (recorrdido.final) {
+            if (recorrdido.final.latitud && recorrdido.final.longitud) {
+              try {
+                //const isLastLocation = location.geubfech === mostRecentLocation.geubfech;
+                let fechaFin: Date = new Date();
+                if (recorrdido.final != null) {
+                  fechaFin = recorrdido.final.fecha;
+                }
+                const marker = this.createTrackingMarkerRecorridoInicioFinal(recorrdido.final, recorrdido.usuario, recorrdido.inicio.fecha, false, true, 0);
+                const markerId = `${recorrdido.final.latitud}-${recorrdido.final.longitud}-${recorrdido.final.fecha}`;
+                this.trackingMarkers.set(markerId, marker);
+                this.trackingClusterGroup?.addLayer(marker);
+              } catch (error) {
+                console.error('Error al agregar marcador de tracking:', error, location);
+              }
+            }
+          }
+          //this.createTrackingPathRecorrido(recorrdido.inicio, recorrdido.detalle, recorrdido.final);
+        }
+        );
+      }
+      this.createTrackingPathCompleto(
+        locations.length > 0 ? locations : [],
+        recorridos.length > 0 ? recorridos : []
+      );
+
+      setTimeout(() => {
+        this.map?.invalidateSize();
+      }, 100);
+    } catch (error) {
+      console.error('Error general en addTrackingMarkers:', error);
+      this.msgService?.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error al agregar marcadores de tracking'
+      });
+    }
+  }
+
+  addTrackingMarkers(locations: Mpa_UltUbi[]): void {
+    if (!this.map || !this.L || locations.length === 0) {
+      console.warn('Mapa, Leaflet o ubicaciones no están disponibles');
+      return;
+    }
+
+    try {
+      //this.clearTrackingMarkers();
+      //this.initializeTrackingCluster();
 
       const mostRecentLocation = locations[0];
 
@@ -2597,8 +2702,8 @@ ${fila.pedido ? `
     }
 
     try {
-      this.clearTrackingMarkers();
-      this.initializeTrackingCluster();
+      //this.clearTrackingMarkers();
+      //this.initializeTrackingCluster();
 
       //const mostRecentLocation = locations[0];
 
@@ -3143,7 +3248,7 @@ ${fila.pedido ? `
     const title = esCliente ? 'text-orange-700' : `text-yellow-700`;
     const icono = esCliente ? 'Última actualización' : `Ubicación ${index + 1}`;
     let diferenciaEntreFechas = this.calcularTiempoTranscurrido(location.recdfechin!, location.recdfechfn!);
-    
+
     //const timeLabel = isLastLocation ? 'Última actualización' : 'Registro';
     return `
     <div class="${bgColor} rounded-lg p-2 border ${borderColor}">
@@ -3156,15 +3261,14 @@ ${fila.pedido ? `
                     <div class="font-semibold text-xs ${title} whitespace-nowrap">${location.recdusu}</div>
                 </div>
                 <div class="space-y-1">
-                  ${
-                      esCliente 
-                  ? 
-                    `<div class="text-xs text-gray-600">${location.recddoc}</div>
+                  ${esCliente
+        ?
+        `<div class="text-xs text-gray-600">${location.recddoc}</div>
                     <div class="text-xs text-gray-600">${location.recdnomb}</div>`
-                  :
-                    `<div class="text-xs text-gray-600">${location.recdlugc}</div>
+        :
+        `<div class="text-xs text-gray-600">${location.recdlugc}</div>
                     <div class="text-xs text-gray-600">${location.recdlug}</div>`
-                  }
+      }
                     <div class="text-xs text-gray-600"><span class="font-semibold">Motivo: </span>${location.recdtip}</div>
                     ${location.recdcom1 != "" ? `<div class="text-xs text-gray-600"><span class="font-semibold">Comentario: </span>${location.recdcom1}</div>` : ``}
                     ${location.recdcom2 != "" ? `<div class="text-xs text-gray-600"><span class="font-semibold">Comentario: </span>${location.recdcom2}</div>` : ``}
@@ -3433,7 +3537,7 @@ ${fila.pedido ? `
   /**
    * Inicializa cluster para marcadores de tracking
    */
-  private initializeTrackingCluster(): void {
+  public initializeTrackingCluster(): void {
     if (!this.map || !this.L) return;
 
     if (!this.L.MarkerClusterGroup) {
@@ -3585,6 +3689,67 @@ ${fila.pedido ? `
 
     this.trackingPath?.addTo(this.map);
   }
+  private createTrackingPathCompleto(locations: Mpa_UltUbi[], recorridos: RPOSTGeolocalizacionReportesRecorridosDetalles[]): void {
+    if (!this.map || !this.L) return;
+    let linea1 = null;
+    let linea2 = null;
+    if (locations.length > 1) {
+      const pathCoordinatesAutomatico: [number, number][] = locations.map((location) => [location.geublat, location.geublon]);
+      linea1 = this.L.polyline(pathCoordinatesAutomatico, {
+        color: '#3B82F6',
+        weight: 3,
+        opacity: 0.7,
+        smoothFactor: 1
+      });
+      linea1.addTo(this.map);
+      /*this.L.polyline(pathCoordinatesAutomatico, {
+        color: '#3B82F6',
+        weight: 3,
+        opacity: 0.7,
+        smoothFactor: 1
+      }).addTo(this.map);*/
+    }
+    if (recorridos.length > 0) {
+
+      recorridos.forEach(recorrido => {
+        let cantidad = (recorrido.inicio != null ? 1 : 0) + (recorrido.final != null ? 1 : 0) + (recorrido.detalle.length);
+        if (cantidad > 1) {
+          const pathCoordinates: [number, number][] = [
+            ...(recorrido.inicio != null
+              ? [[recorrido.inicio.latitud, recorrido.inicio.longitud] as [number, number]]
+              : []),
+            ...recorrido.detalle.map(deta => [deta.recdlatub, deta.recdlonub] as [number, number])
+          ];
+          if (recorrido.final != null) {
+            pathCoordinates.push([recorrido.final.latitud, recorrido.final.longitud]);
+          }
+          /*this.trackingPath*/ linea2 = this.L.polyline(pathCoordinates, {
+            color: '#09a382',
+            weight: 3,
+            opacity: 0.7,
+            smoothFactor: 1
+          });
+      linea2.addTo(this.map);
+          /*this.L.polyline(pathCoordinates, {
+            color: '#09a382',
+            weight: 3,
+            opacity: 0.7,
+            smoothFactor: 1
+          }).addTo(this.map);*/
+        }
+      });
+    }
+
+    if (linea1 != null) {
+      //linea.addTo(this.map);
+      this.trackingPathLista?.push(linea1);
+    }
+    if (linea2 != null) {
+      //linea.addTo(this.map);
+      this.trackingPathLista?.push(linea2);
+    }
+    //this.trackingPath?.addTo(this.map);
+  }
   private createPathTabla(userLocation: MTabla[]): void {
     if (!this.map || !this.L || userLocation.length === 0) return;
 
@@ -3620,6 +3785,13 @@ ${fila.pedido ? `
     if (this.trackingPath && this.map) {
       this.map.removeLayer(this.trackingPath);
       this.trackingPath = null;
+    }
+    if (this.trackingPathLista && this.map) {
+      this.trackingPathLista.forEach(linea => {
+        this.map?.removeLayer(linea);
+        // o linea.remove();
+      });
+      this.trackingPathLista = [];
     }
 
     this.trackingMarkers.clear();
